@@ -34,7 +34,7 @@ client.on('message', message => {
     } else if (args.length == 0) {
       return message.channel.send(`Please set how many messages you would like to delete`);
     } else if (message.channel.type == "dm") {
-      return message.reply("You can't bulk delete here, sorry");
+      return message.reply("You can't clear here, sorry");
     }else{
       CommandHandler.clearFunction(args[0], message);
     }
@@ -50,6 +50,30 @@ client.on('message', message => {
   }
 
   else if (command == "kick") {
-    CommandHandler.kickUser(message);
+    var reason = (args.slice(1)).join(" ");
+    if (reason == "") {
+      reason = "No reason provided";
+    }
+    CommandHandler.kickUser(message, reason);
+  }
+  
+  else if (command == "args") {
+    if (args.length == 0) {
+      return message.channel.send("Whose ID do you want?");
+    } else {
+      var reason = (args.slice(1)).join(" ");
+      
+      console.log(`User ID: ${message.mentions.users.first().id}`);
+      console.log(reason);
+      if (reason == "") console.log("null");
+    }
+  }
+
+  else if (command == "ban") {
+    var reason = (args.slice(1)).join(" ");
+    if (reason == "") {
+      reason = "No reason provided";
+    }
+    CommandHandler.banUser(message, reason);
   }
 });
