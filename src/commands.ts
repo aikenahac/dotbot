@@ -76,7 +76,7 @@ export default class CommandHandler {
               
             return message.channel.send(errorEmbed);
           }else {
-            message.guild.member(`${userBanned}`).ban(reason);
+            message.guild.member(`${userBanned}`).kick(reason);
 
             const successEmbed = new Discord.MessageEmbed()
               .setTitle('Success:')

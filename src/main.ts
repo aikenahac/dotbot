@@ -113,6 +113,10 @@ client.on('message', message => {
     }
   }
 
+  else if (command == "ping") {
+    return message.channel.send("pong");
+  }
+
   else {
     const errorEmbed = new Discord.MessageEmbed()
       .setTitle('Error:')
