@@ -43,24 +43,16 @@ client.on('message', function (message) {
             commands_1.default.clearFunction(args[0], message);
         }
     }
-    else if (command == "print") {
-        if (args.length == 0) {
-            return message.channel.send("Whose ID do you want?");
-        }
-        else {
-            console.log("User ID: " + message.mentions.users.first().id);
-            return message.channel.send("User: " + args);
-        }
-    }
     else if (command == "kick") {
         var botRoles = message.guild.me.roles.cache.array();
         var userRoles = message.mentions.members.first().roles.highest;
         var senderRoles = message.member.roles.highest;
+        var defaultRole = message.guild.roles.cache.find(function (role) { return role.name === "[db!] DotBot"; });
         var reason = (args.slice(1)).join(" ");
         if (reason == "") {
             reason = "No reason provided";
         }
-        commands_1.default.kickUser(message, reason, botRoles, userRoles, senderRoles);
+        commands_1.default.kickUser(message, reason, botRoles, userRoles, senderRoles, defaultRole);
     }
     else if (command == "args") {
         if (args.length == 0) {
@@ -78,11 +70,12 @@ client.on('message', function (message) {
         var botRoles = message.guild.me.roles.cache.array();
         var userRoles = message.mentions.members.first().roles.highest;
         var senderRoles = message.member.roles.highest;
+        var defaultRole = message.guild.roles.cache.find(function (role) { return role.name === "[db!] DotBot"; });
         var reason = (args.slice(1)).join(" ");
         if (reason == "") {
             reason = "No reason provided";
         }
-        commands_1.default.banUser(message, reason, botRoles, userRoles, senderRoles);
+        commands_1.default.banUser(message, reason, botRoles, userRoles, senderRoles, defaultRole);
     }
     else if (command == "say") {
         if (args.length == 0) {
@@ -92,8 +85,15 @@ client.on('message', function (message) {
                 .setColor('#DD1627');
             return message.channel.send(errorEmbed);
         }
-        else {
+        else if (message.author.id === '315446934502506497') {
             commands_1.default.sendMessage(message, args.join(" "));
+        }
+        else {
+            var errorEmbed = new discord_js_1.default.MessageEmbed()
+                .setTitle('Error:')
+                .addField('Missing perms:', "Nisi moj o\u010Dka! You can't control me!!!", false)
+                .setColor('#DD1627');
+            return message.channel.send(errorEmbed);
         }
     }
     else {

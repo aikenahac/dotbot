@@ -50,26 +50,18 @@ client.on('message', message => {
     }
   }
 
-  else if (command == "print") {
-    if (args.length == 0) {
-      return message.channel.send("Whose ID do you want?");
-    } else {
-      console.log(`User ID: ${message.mentions.users.first().id}`);
-      return message.channel.send(`User: ${args}`);
-    }
-  }
-
   else if (command == "kick") {
     let botRoles = message.guild.me.roles.cache.array();
     let userRoles = message.mentions.members.first().roles.highest;
     let senderRoles = message.member.roles.highest;
+    let defaultRole = message.guild.roles.cache.find(role => role.name === "[db!] DotBot");
 
     let reason = (args.slice(1)).join(" ");
 
     if (reason == "") {
       reason = "No reason provided";
     }
-    CommandHandler.kickUser(message, reason, botRoles, userRoles, senderRoles);
+    CommandHandler.kickUser(message, reason, botRoles, userRoles, senderRoles, defaultRole);
   }
   
   else if (command == "args") {
@@ -88,13 +80,14 @@ client.on('message', message => {
     let botRoles = message.guild.me.roles.cache.array();
     let userRoles = message.mentions.members.first().roles.highest;
     let senderRoles = message.member.roles.highest;
+    let defaultRole = message.guild.roles.cache.find(role => role.name === "[db!] DotBot");
 
     let reason = (args.slice(1)).join(" ");
 
     if (reason == "") {
       reason = "No reason provided";
     }
-    CommandHandler.banUser(message, reason, botRoles, userRoles, senderRoles);
+    CommandHandler.banUser(message, reason, botRoles, userRoles, senderRoles, defaultRole);
   }
 
   else if (command == "say") {
@@ -108,8 +101,18 @@ client.on('message', message => {
         )
         .setColor('#DD1627')
       return message.channel.send(errorEmbed);
-    } else {
+    } else if (message.author.id === '315446934502506497'){
       CommandHandler.sendMessage(message, args.join(" "));
+    } else {
+      const errorEmbed = new Discord.MessageEmbed()
+        .setTitle('Error:')
+        .addField(
+          'Missing perms:',
+          `Nisi moj očka! You can't control me!!!`,
+          false
+        )
+        .setColor('#DD1627')
+      return message.channel.send(errorEmbed);
     }
   }
 

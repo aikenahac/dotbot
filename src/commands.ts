@@ -24,9 +24,9 @@ export default class CommandHandler {
       }
     }
 
-    static kickUser(message, reason, botRoles, userRoles, senderRoles) {
+    static kickUser(message, reason, botRoles, userRoles, senderRoles, defaultRole) {
       console.log("attempting kick");
-      if (message.member.hasPermission("KICK_MEMBERS") || message.member.hasPermission("ADMINISTRATOR")) {
+      if (message.member.hasPermission("KICK_MEMBERS") && message.guild.me.hasPermission("KICK_MEMBERS")) {
         let userBanned = message.mentions.users.first().id;
         let ownerID = message.guild.ownerID;
 
@@ -41,7 +41,7 @@ export default class CommandHandler {
             .setColor('#DD1627')
             
           return message.channel.send(errorEmbed);
-        } else if (botRoles[0].position > userRoles.position) {
+        } else if (botRoles[0].position > userRoles.position || defaultRole.position > userRoles.position) {
           if (senderRoles.position < userRoles.position) {
             const errorEmbed = new Discord.MessageEmbed()
               .setTitle('Error:')
@@ -76,7 +76,7 @@ export default class CommandHandler {
               
             return message.channel.send(errorEmbed);
           }else {
-            message.guild.member(`${userBanned}`).ban(reason);
+            message.guild.member(`${userBanned}`).kick(reason);
 
             const successEmbed = new Discord.MessageEmbed()
               .setTitle('Success:')
@@ -114,12 +114,12 @@ export default class CommandHandler {
       }
     }
 
-    static banUser(message, reason, botRoles, userRoles, senderRoles) {
+    static banUser(message, reason, botRoles, userRoles, senderRoles, defaultRole) {
       console.log("attempting ban");
-      if (message.member.hasPermission("KICK_MEMBERS") || message.member.hasPermission("ADMINISTRATOR")) {
+      if (message.member.hasPermission("BAN_MEMBERS") && message.guild.me.hasPermission("BAN_MEMBERS")) {
         let userBanned = message.mentions.users.first().id;
         
-        if (botRoles[0].position > userRoles.position) {
+        if (botRoles[0].position > userRoles.position || defaultRole.position > userRoles.position) {
           if (senderRoles.position < userRoles.position) {
             const errorEmbed = new Discord.MessageEmbed()
               .setTitle('Error:')
@@ -132,7 +132,7 @@ export default class CommandHandler {
               
             return message.channel.send(errorEmbed);
           } else {
-            message.guild.member(`${userBanned}`).ban(reason);
+            message.guild.member(`${userBanned}`).ban({ days: 7, reason: `${reason}` });
 
             const successEmbed = new Discord.MessageEmbed()
               .setTitle('Success:')
@@ -162,7 +162,7 @@ export default class CommandHandler {
           .setTitle('Error:')
           .addField(
             'Insufficient permissions:',
-            `You don\'t have the necessary permissions to ban users.`,
+            `You don\'t have the necessary permissions to ban users or I don't.`,
             false
           )
           .setColor('#DD1627')

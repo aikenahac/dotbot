@@ -25,9 +25,9 @@ var CommandHandler = /** @class */ (function () {
             message.channel.bulkDelete(noOfMessages);
         }
     };
-    CommandHandler.kickUser = function (message, reason, botRoles, userRoles, senderRoles) {
+    CommandHandler.kickUser = function (message, reason, botRoles, userRoles, senderRoles, defaultRole) {
         console.log("attempting kick");
-        if (message.member.hasPermission("KICK_MEMBERS") || message.member.hasPermission("ADMINISTRATOR")) {
+        if (message.member.hasPermission("KICK_MEMBERS") && message.guild.me.hasPermission("KICK_MEMBERS")) {
             var userBanned = message.mentions.users.first().id;
             var ownerID = message.guild.ownerID;
             if (userBanned == ownerID) {
@@ -37,7 +37,7 @@ var CommandHandler = /** @class */ (function () {
                     .setColor('#DD1627');
                 return message.channel.send(errorEmbed);
             }
-            else if (botRoles[0].position > userRoles.position) {
+            else if (botRoles[0].position > userRoles.position || defaultRole.position > userRoles.position) {
                 if (senderRoles.position < userRoles.position) {
                     var errorEmbed = new discord_js_1.default.MessageEmbed()
                         .setTitle('Error:')
@@ -60,7 +60,7 @@ var CommandHandler = /** @class */ (function () {
                     return message.channel.send(errorEmbed);
                 }
                 else {
-                    message.guild.member("" + userBanned).ban(reason);
+                    message.guild.member("" + userBanned).kick(reason);
                     var successEmbed = new discord_js_1.default.MessageEmbed()
                         .setTitle('Success:')
                         .addField('Successfully kicked:', "<@" + userBanned + "> with reason: " + reason, false)
@@ -84,11 +84,11 @@ var CommandHandler = /** @class */ (function () {
             return message.channel.send(errorEmbed);
         }
     };
-    CommandHandler.banUser = function (message, reason, botRoles, userRoles, senderRoles) {
+    CommandHandler.banUser = function (message, reason, botRoles, userRoles, senderRoles, defaultRole) {
         console.log("attempting ban");
-        if (message.member.hasPermission("KICK_MEMBERS") || message.member.hasPermission("ADMINISTRATOR")) {
+        if (message.member.hasPermission("BAN_MEMBERS") && message.guild.me.hasPermission("BAN_MEMBERS")) {
             var userBanned = message.mentions.users.first().id;
-            if (botRoles[0].position > userRoles.position) {
+            if (botRoles[0].position > userRoles.position || defaultRole.position > userRoles.position) {
                 if (senderRoles.position < userRoles.position) {
                     var errorEmbed = new discord_js_1.default.MessageEmbed()
                         .setTitle('Error:')
@@ -97,7 +97,7 @@ var CommandHandler = /** @class */ (function () {
                     return message.channel.send(errorEmbed);
                 }
                 else {
-                    message.guild.member("" + userBanned).ban(reason);
+                    message.guild.member("" + userBanned).ban({ days: 7, reason: "" + reason });
                     var successEmbed = new discord_js_1.default.MessageEmbed()
                         .setTitle('Success:')
                         .addField('Successfully banned:', "<@" + userBanned + "> with reason: " + reason, false)
@@ -116,7 +116,7 @@ var CommandHandler = /** @class */ (function () {
         else {
             var errorEmbed = new discord_js_1.default.MessageEmbed()
                 .setTitle('Error:')
-                .addField('Insufficient permissions:', "You don't have the necessary permissions to ban users.", false)
+                .addField('Insufficient permissions:', "You don't have the necessary permissions to ban users or I don't.", false)
                 .setColor('#DD1627');
             return message.channel.send(errorEmbed);
         }
