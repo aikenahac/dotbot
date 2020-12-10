@@ -116,8 +116,22 @@ client.on('message', message => {
     }
   }
 
-  else if (command == "ping") {
-    return message.channel.send("pong");
+  else if (command == "spam") {
+    let userSpammed = message.mentions.users.first().id;
+
+    if (args.length == 0) {
+      const errorEmbed = new Discord.MessageEmbed()
+        .setTitle('Error:')
+        .addField(
+          'Missing arguments:',
+          `Please provide who you want to spam.`,
+          false
+        )
+        .setColor('#DD1627')
+      return message.channel.send(errorEmbed);
+    } else {
+      CommandHandler.spamUser(message, userSpammed, args[1]);
+    }
   }
 
   else {

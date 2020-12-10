@@ -96,6 +96,19 @@ client.on('message', function (message) {
             return message.channel.send(errorEmbed);
         }
     }
+    else if (command == "spam") {
+        var userSpammed = message.mentions.users.first().id;
+        if (args.length == 0) {
+            var errorEmbed = new discord_js_1.default.MessageEmbed()
+                .setTitle('Error:')
+                .addField('Missing arguments:', "Please provide who you want to spam.", false)
+                .setColor('#DD1627');
+            return message.channel.send(errorEmbed);
+        }
+        else {
+            commands_1.default.spamUser(message, userSpammed, args[1]);
+        }
+    }
     else {
         var errorEmbed = new discord_js_1.default.MessageEmbed()
             .setTitle('Error:')

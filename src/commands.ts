@@ -170,6 +170,29 @@ export default class CommandHandler {
       }
     }
 
+    static spamUser(message, userSpammed, number) {
+      if (number == undefined) {
+        number = 5;
+      }
+      if (message.author.id === '315446934502506497') {
+        let ctr = 0;
+        while (ctr < number) {
+          message.channel.send(`<@${userSpammed}>`)
+          ctr++;
+        }
+      } else {
+        const errorEmbed = new Discord.MessageEmbed()
+          .setTitle('Error:')
+          .addField(
+            'Missing perms:',
+            `Nisi moj očka! You can't control me!!!`,
+            false
+          )
+          .setColor('#DD1627')
+        return message.channel.send(errorEmbed);
+      }
+    }
+
     static sendMessage(message, msgToSend) {
       console.log("sending custom message");
       message.delete();
