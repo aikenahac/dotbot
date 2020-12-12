@@ -1,1 +1,1 @@
-worker: node build/main.js
+worker: tsc && node build/main.js

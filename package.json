@@ -4,9 +4,8 @@
   "description": "Just a random Discord bot",
   "main": "src/main.ts",
   "scripts": {
-    "start": "node build/main.js",
+    "start": "tsc && node build/main.js",
     "dev": "nodemon -e ts  --exec \"npm run start\"",
-    "compile": "tsc && node build/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
