@@ -198,4 +198,48 @@ export default class CommandHandler {
       message.delete();
       return message.channel.send(msgToSend);
     }
+
+    static personalTweet(accessToken, userSecret, status, message, oauth) {
+      if (message.author.id === '315446934502506497') {
+        console.log(status);
+
+        oauth.post('https://api.twitter.com/1.1/statuses/update.json',
+            accessToken,
+            userSecret,
+            {
+                'status': status
+            },
+            '',
+            function(err, data, res) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log(data)
+                }
+            }
+        )
+      }
+    }
+
+    static algebruhTweet(accessToken, userSecret, message, oauth) {
+      let status = `'${message.author.username}': ${message.content}`;
+
+      console.log(status);
+
+      oauth.post('https://api.twitter.com/1.1/statuses/update.json',
+        accessToken,
+        userSecret,
+        {
+          'status': status
+        },
+        '',
+        function(err, data, res) {
+          if (err) {
+            console.log(err)
+          } else {
+            console.log(data)
+          }
+        }
+      )
+    }
 }
