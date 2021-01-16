@@ -215,9 +215,28 @@ export default class CommandHandler {
                     console.log(err);
                 } else {
                     console.log(data)
+                    const successEmbed = new Discord.MessageEmbed()
+                      .setTitle('Success:')
+                      .addField(
+                        'Successfuly tweeted!:',
+                        `Uspešno tweetu na @aikenahac`,
+                        false
+                      )
+                      .setColor('#43B581')
+                    return message.channel.send(successEmbed);
                 }
             }
         )
+      } else {
+        const errorEmbed = new Discord.MessageEmbed()
+          .setTitle('Error:')
+          .addField(
+            'Missing perms:',
+            `A si resno mislu da bom dovolu da tweetas na moj account?`,
+            false
+          )
+          .setColor('#DD1627')
+        return message.channel.send(errorEmbed);
       }
     }
 
