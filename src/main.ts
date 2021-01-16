@@ -67,7 +67,7 @@ client.on('message', message => {
     return message.channel.send("we ded");
   }
 
-  else if (message.channel.id == channelID) {
+  else if (message.channel.id == channelID && !message.content.startsWith(`${prefix}`)) {
     CommandHandler.algebruhTweet(
       twitter_user_access_token,
       twitter_user_secret,
