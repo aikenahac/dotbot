@@ -1,264 +1,264 @@
 import Discord from "discord.js";
 
 export default class CommandHandler {
-    static clearFunction(noofMsg, message) {
-      console.log("attempting message clear");
-      if (noofMsg == 0) {
-        return message.reply("One does not simply delete 0 messages!");
-      } else if(!message.member.hasPermission("MANAGE_MESSAGES")){
-        const errorEmbed = new Discord.MessageEmbed()
-          .setTitle('Error:')
-          .addField(
-            'Insufficient permissions:',
-            `You don\'t have the necessary permissions to manage messages.`,
-            false
-          )
-          .setColor('#DD1627')
-        return message.channel.send(errorEmbed);
-      } else {
-        message.delete();
+		static clearFunction(noofMsg, message) {
+			console.log("attempting message clear");
+			if (noofMsg == 0) {
+				return message.reply("One does not simply delete 0 messages!");
+			} else if(!message.member.hasPermission("MANAGE_MESSAGES")){
+				const errorEmbed = new Discord.MessageEmbed()
+					.setTitle('Error:')
+					.addField(
+						'Insufficient permissions:',
+						`You don\'t have the necessary permissions to manage messages.`,
+						false
+					)
+					.setColor('#DD1627')
+				return message.channel.send(errorEmbed);
+			} else {
+				message.delete();
 
-        let noOfMessages: number = parseInt(noofMsg);
+				let noOfMessages: number = parseInt(noofMsg);
 
-        message.channel.bulkDelete(noOfMessages);
-      }
-    }
+				message.channel.bulkDelete(noOfMessages);
+			}
+		}
 
-    static kickUser(message, reason, botRoles, userRoles, senderRoles, defaultRole) {
-      console.log("attempting kick");
-      if (message.member.hasPermission("KICK_MEMBERS") && message.guild.me.hasPermission("KICK_MEMBERS")) {
-        let userBanned = message.mentions.users.first().id;
-        let ownerID = message.guild.ownerID;
+		static kickUser(message, reason, botRoles, userRoles, senderRoles, defaultRole) {
+			console.log("attempting kick");
+			if (message.member.hasPermission("KICK_MEMBERS") && message.guild.me.hasPermission("KICK_MEMBERS")) {
+				let userBanned = message.mentions.users.first().id;
+				let ownerID = message.guild.ownerID;
 
-        if (userBanned == ownerID) {
-          const errorEmbed = new Discord.MessageEmbed()
-            .setTitle('Error:')
-            .addField(
-              'Really?',
-              `One does not simply ban the owner.`,
-              false
-            )
-            .setColor('#DD1627')
-            
-          return message.channel.send(errorEmbed);
-        } else if (botRoles[0].position > userRoles.position || defaultRole.position > userRoles.position) {
-          if (senderRoles.position < userRoles.position) {
-            const errorEmbed = new Discord.MessageEmbed()
-              .setTitle('Error:')
-              .addField(
-                'Role error:',
-                `<@${userBanned}> has a higher role than you, you fucktard.`,
-                false
-              )
-              .setColor('#DD1627')
-              
-            return message.channel.send(errorEmbed);
-          } else if (senderRoles.position == userRoles.position ){
-            const errorEmbed = new Discord.MessageEmbed()
-              .setTitle('Error:')
-              .addField(
-                'Role error:',
-                `<@${userBanned}> has the same role as you, you fucktard.`,
-                false
-              )
-              .setColor('#DD1627')
-              
-            return message.channel.send(errorEmbed);
-          } else if(botRoles[0].position == userRoles.position) {
-            const errorEmbed = new Discord.MessageEmbed()
-              .setTitle('Error:')
-              .addField(
-                'Role error:',
-                `<@${userBanned}> has the same role as me.`,
-                false
-              )
-              .setColor('#DD1627')
-              
-            return message.channel.send(errorEmbed);
-          }else {
-            message.guild.member(`${userBanned}`).kick(reason);
+				if (userBanned == ownerID) {
+					const errorEmbed = new Discord.MessageEmbed()
+						.setTitle('Error:')
+						.addField(
+							'Really?',
+							`One does not simply ban the owner.`,
+							false
+						)
+						.setColor('#DD1627')
+						
+					return message.channel.send(errorEmbed);
+				} else if (botRoles[0].position > userRoles.position || defaultRole.position > userRoles.position) {
+					if (senderRoles.position < userRoles.position) {
+						const errorEmbed = new Discord.MessageEmbed()
+							.setTitle('Error:')
+							.addField(
+								'Role error:',
+								`<@${userBanned}> has a higher role than you, you fucktard.`,
+								false
+							)
+							.setColor('#DD1627')
+							
+						return message.channel.send(errorEmbed);
+					} else if (senderRoles.position == userRoles.position ){
+						const errorEmbed = new Discord.MessageEmbed()
+							.setTitle('Error:')
+							.addField(
+								'Role error:',
+								`<@${userBanned}> has the same role as you, you fucktard.`,
+								false
+							)
+							.setColor('#DD1627')
+							
+						return message.channel.send(errorEmbed);
+					} else if(botRoles[0].position == userRoles.position) {
+						const errorEmbed = new Discord.MessageEmbed()
+							.setTitle('Error:')
+							.addField(
+								'Role error:',
+								`<@${userBanned}> has the same role as me.`,
+								false
+							)
+							.setColor('#DD1627')
+							
+						return message.channel.send(errorEmbed);
+					}else {
+						message.guild.member(`${userBanned}`).kick(reason);
 
-            const successEmbed = new Discord.MessageEmbed()
-              .setTitle('Success:')
-              .addField(
-                'Successfully kicked:',
-                `<@${userBanned}> with reason: ${reason}`,
-                false
-              )
-              .setColor('#43B581')
-              
-            return message.channel.send(successEmbed);
-          }
-        } else {
-          const errorEmbed = new Discord.MessageEmbed()
-            .setTitle('Error:')
-            .addField(
-              'Role error:',
-              `<@${userBanned}> has a higher role than me`,
-              false
-            )
-            .setColor('#DD1627')
-            
-          return message.channel.send(errorEmbed);
-        }
-      } else {
-        const errorEmbed = new Discord.MessageEmbed()
-          .setTitle('Error:')
-          .addField(
-            'Insufficient permissions:',
-            `You don\'t have the necessary permissions to kick users.`,
-            false
-          )
-          .setColor('#DD1627')
-        return message.channel.send(errorEmbed);
-      }
-    }
+						const successEmbed = new Discord.MessageEmbed()
+							.setTitle('Success:')
+							.addField(
+								'Successfully kicked:',
+								`<@${userBanned}> with reason: ${reason}`,
+								false
+							)
+							.setColor('#43B581')
+							
+						return message.channel.send(successEmbed);
+					}
+				} else {
+					const errorEmbed = new Discord.MessageEmbed()
+						.setTitle('Error:')
+						.addField(
+							'Role error:',
+							`<@${userBanned}> has a higher role than me`,
+							false
+						)
+						.setColor('#DD1627')
+						
+					return message.channel.send(errorEmbed);
+				}
+			} else {
+				const errorEmbed = new Discord.MessageEmbed()
+					.setTitle('Error:')
+					.addField(
+						'Insufficient permissions:',
+						`You don\'t have the necessary permissions to kick users.`,
+						false
+					)
+					.setColor('#DD1627')
+				return message.channel.send(errorEmbed);
+			}
+		}
 
-    static banUser(message, reason, botRoles, userRoles, senderRoles, defaultRole) {
-      console.log("attempting ban");
-      if (message.member.hasPermission("BAN_MEMBERS") && message.guild.me.hasPermission("BAN_MEMBERS")) {
-        let userBanned = message.mentions.users.first().id;
-        
-        if (botRoles[0].position > userRoles.position || defaultRole.position > userRoles.position) {
-          if (senderRoles.position < userRoles.position) {
-            const errorEmbed = new Discord.MessageEmbed()
-              .setTitle('Error:')
-              .addField(
-                'Role error:',
-                `<@${userBanned}> has a higher role than you, you fucktard.`,
-                false
-              )
-              .setColor('#DD1627')
-              
-            return message.channel.send(errorEmbed);
-          } else {
-            message.guild.member(`${userBanned}`).ban({ days: 7, reason: `${reason}` });
+		static banUser(message, reason, botRoles, userRoles, senderRoles, defaultRole) {
+			console.log("attempting ban");
+			if (message.member.hasPermission("BAN_MEMBERS") && message.guild.me.hasPermission("BAN_MEMBERS")) {
+				let userBanned = message.mentions.users.first().id;
+				
+				if (botRoles[0].position > userRoles.position || defaultRole.position > userRoles.position) {
+					if (senderRoles.position < userRoles.position) {
+						const errorEmbed = new Discord.MessageEmbed()
+							.setTitle('Error:')
+							.addField(
+								'Role error:',
+								`<@${userBanned}> has a higher role than you, you fucktard.`,
+								false
+							)
+							.setColor('#DD1627')
+							
+						return message.channel.send(errorEmbed);
+					} else {
+						message.guild.member(`${userBanned}`).ban({ days: 7, reason: `${reason}` });
 
-            const successEmbed = new Discord.MessageEmbed()
-              .setTitle('Success:')
-              .addField(
-                'Successfully banned:',
-                `<@${userBanned}> with reason: ${reason}`,
-                false
-              )
-              .setColor('#43B581')
-              
-            return message.channel.send(successEmbed);
-          }
-        } else {
-          const errorEmbed = new Discord.MessageEmbed()
-            .setTitle('Error:')
-            .addField(
-              'Role error:',
-              `<@${userBanned}> has a higher role than me`,
-              false
-            )
-            .setColor('#DD1627')
-            
-          return message.channel.send(errorEmbed);
-        }
-      } else {
-        const errorEmbed = new Discord.MessageEmbed()
-          .setTitle('Error:')
-          .addField(
-            'Insufficient permissions:',
-            `You don\'t have the necessary permissions to ban users or I don't.`,
-            false
-          )
-          .setColor('#DD1627')
-        return message.channel.send(errorEmbed);
-      }
-    }
+						const successEmbed = new Discord.MessageEmbed()
+							.setTitle('Success:')
+							.addField(
+								'Successfully banned:',
+								`<@${userBanned}> with reason: ${reason}`,
+								false
+							)
+							.setColor('#43B581')
+							
+						return message.channel.send(successEmbed);
+					}
+				} else {
+					const errorEmbed = new Discord.MessageEmbed()
+						.setTitle('Error:')
+						.addField(
+							'Role error:',
+							`<@${userBanned}> has a higher role than me`,
+							false
+						)
+						.setColor('#DD1627')
+						
+					return message.channel.send(errorEmbed);
+				}
+			} else {
+				const errorEmbed = new Discord.MessageEmbed()
+					.setTitle('Error:')
+					.addField(
+						'Insufficient permissions:',
+						`You don\'t have the necessary permissions to ban users or I don't.`,
+						false
+					)
+					.setColor('#DD1627')
+				return message.channel.send(errorEmbed);
+			}
+		}
 
-    static spamUser(message, userSpammed, number) {
-      if (number == undefined) {
-        number = 5;
-      }
-      if (message.author.id === '315446934502506497') {
-        let ctr = 0;
-        while (ctr < number) {
-          message.channel.send(`<@${userSpammed}>`)
-          ctr++;
-        }
-      } else {
-        const errorEmbed = new Discord.MessageEmbed()
-          .setTitle('Error:')
-          .addField(
-            'Missing perms:',
-            `Nisi moj očka! You can't control me!!!`,
-            false
-          )
-          .setColor('#DD1627')
-        return message.channel.send(errorEmbed);
-      }
-    }
+		static spamUser(message, userSpammed, number) {
+			if (number == undefined) {
+				number = 5;
+			}
+			if (message.author.id === '315446934502506497') {
+				let ctr = 0;
+				while (ctr < number) {
+					message.channel.send(`<@${userSpammed}>`)
+					ctr++;
+				}
+			} else {
+				const errorEmbed = new Discord.MessageEmbed()
+					.setTitle('Error:')
+					.addField(
+						'Missing perms:',
+						`Nisi moj očka! You can't control me!!!`,
+						false
+					)
+					.setColor('#DD1627')
+				return message.channel.send(errorEmbed);
+			}
+		}
 
-    static sendMessage(message, msgToSend) {
-      console.log("sending custom message");
-      message.delete();
-      return message.channel.send(msgToSend);
-    }
+		static sendMessage(message, msgToSend) {
+			console.log("sending custom message");
+			message.delete();
+			return message.channel.send(msgToSend);
+		}
 
-    static personalTweet(accessToken, userSecret, status, message, oauth) {
-      if (message.author.id === '315446934502506497') {
-        console.log(status);
+		static personalTweet(accessToken, userSecret, status, message, oauth) {
+			if (message.author.id === '315446934502506497') {
+				console.log(status);
 
-        oauth.post('https://api.twitter.com/1.1/statuses/update.json',
-            accessToken,
-            userSecret,
-            {
-                'status': status
-            },
-            '',
-            function(err, data, res) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log(data)
-                    const successEmbed = new Discord.MessageEmbed()
-                      .setTitle('Success:')
-                      .addField(
-                        'Successfuly tweeted!:',
-                        `Uspešno tweetu na @aikenahac`,
-                        false
-                      )
-                      .setColor('#43B581')
-                    return message.channel.send(successEmbed);
-                }
-            }
-        )
-      } else {
-        const errorEmbed = new Discord.MessageEmbed()
-          .setTitle('Error:')
-          .addField(
-            'Missing perms:',
-            `A si resno mislu da bom dovolu da tweetas na moj account?`,
-            false
-          )
-          .setColor('#DD1627')
-        return message.channel.send(errorEmbed);
-      }
-    }
+				oauth.post('https://api.twitter.com/1.1/statuses/update.json',
+						accessToken,
+						userSecret,
+						{
+							'status': status
+						},
+						'',
+						function(err, data, res) {
+								if (err) {
+										console.log(err);
+								} else {
+										console.log(data)
+										const successEmbed = new Discord.MessageEmbed()
+											.setTitle('Success:')
+											.addField(
+												'Successfuly tweeted!:',
+												`Uspešno tweetu na @aikenahac`,
+												false
+											)
+											.setColor('#43B581')
+										return message.channel.send(successEmbed);
+								}
+						}
+				)
+			} else {
+				const errorEmbed = new Discord.MessageEmbed()
+					.setTitle('Error:')
+					.addField(
+						'Missing perms:',
+						`A si resno mislu da bom dovolu da tweetas na moj account?`,
+						false
+					)
+					.setColor('#DD1627')
+				return message.channel.send(errorEmbed);
+			}
+		}
 
-    static algebruhTweet(accessToken, userSecret, message, oauth) {
-      let status = `'${message.author.username}': ${message.content}`;
+		static algebruhTweet(accessToken, userSecret, message, oauth) {
+			let status = `'${message.author.username}': ${message.content}`;
 
-      console.log(status);
+			console.log(status);
 
-      oauth.post('https://api.twitter.com/1.1/statuses/update.json',
-        accessToken,
-        userSecret,
-        {
-          'status': status
-        },
-        '',
-        function(err, data, res) {
-          if (err) {
-            console.log(err)
-          } else {
-            console.log(data)
-          }
-        }
-      )
-    }
+			oauth.post('https://api.twitter.com/1.1/statuses/update.json',
+				accessToken,
+				userSecret,
+				{
+					'status': status
+				},
+				'',
+				function(err, data, res) {
+					if (err) {
+						console.log(err)
+					} else {
+						console.log(data)
+					}
+				}
+			)
+		}
 }
