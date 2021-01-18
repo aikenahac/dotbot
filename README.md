@@ -1,3 +1,3 @@
 # dotbot
 
-A Discord bot that cause chaos on my Twitter account
+A Discord bot that caused chaos on my Twitter account
