@@ -239,26 +239,4 @@ export default class CommandHandler {
 				return message.channel.send(errorEmbed);
 			}
 		}
-
-		static algebruhTweet(accessToken, userSecret, message, oauth) {
-			let status = `'${message.author.username}': ${message.content}`;
-
-			console.log(status);
-
-			oauth.post('https://api.twitter.com/1.1/statuses/update.json',
-				accessToken,
-				userSecret,
-				{
-					'status': status
-				},
-				'',
-				function(err, data, res) {
-					if (err) {
-						console.log(err)
-					} else {
-						console.log(data)
-					}
-				}
-			)
-		}
 }

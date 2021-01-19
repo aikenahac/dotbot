@@ -13,16 +13,8 @@ const prefix = process.env.PREFIX;
 const twitter_api_key = process.env.API_KEY_TWITTER;
 const twitter_app_secret = process.env.APP_SECRET_TWITTER;
 
-const twitter_personal_api_key = process.env.TWITTER_PERSONAL_API_KEY;
-const twitter_personal_app_secret = process.env.TWITTER_PERSONAL_APP_SECRET;
-
 const twitter_user_access_token = process.env.TWITTER_ACCESS_TOKEN;
 const twitter_user_secret = process.env.TWITTER_USER_SECRET;
-
-const twitter_personal_access_token = process.env.TWITTER_PERSONAL_ACCESS_TOKEN;
-const twitter_personal_user_secret = process.env.TWITTER_PERSONAL_USER_SECRET;
-
-const channelID = process.env.ACHANNEL;
 
 let status = '';
 
@@ -35,16 +27,6 @@ const oauth = new OAuth.OAuth(
 	null,
 	'HMAC-SHA1'
 );
-
-const oauthPersonal = new OAuth.OAuth(
-	'https://api.twitter.com/oauth/request_token',
-	'https://api.twitter.com/oauth/access_token',
-	twitter_personal_api_key,
-	twitter_personal_app_secret,
-	'1.0A',
-	null,
-	'HMAC-SHA1'
-)
 
 client.login(token);
 
@@ -64,15 +46,6 @@ client.on('message', message => {
 
 	if(message.content.toLowerCase().includes("we ded") && !message.author.bot) {
 		return message.channel.send("we ded");
-	}
-
-	else if (message.channel.id == channelID && !message.content.startsWith(`${prefix}`) && !message.author.bot) {
-		CommandHandler.algebruhTweet(
-			twitter_user_access_token,
-			twitter_user_secret,
-			message,
-			oauth
-		)
 	}
 
 	else if (!message.content.startsWith(prefix) || message.author.bot) return;
@@ -177,11 +150,11 @@ client.on('message', message => {
 		status = args.join(' ');
 
 		CommandHandler.personalTweet(
-			twitter_personal_access_token,
-			twitter_personal_user_secret,
+			twitter_user_access_token,
+			twitter_user_secret,
 			status,
 			message,
-			oauthPersonal
+			oauth
 		)
 	}
 
