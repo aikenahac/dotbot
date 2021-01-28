@@ -171,40 +171,54 @@ export default class CommandHandler {
 		}
 
 		static spamUser(message, userSpammed, number, specialUsers) {
-			let validUser;
+			let validUser, perms;
 
 			if (number == undefined) {
 				number = 5;
-			}
-
-			for ( let i = 0; i < specialUsers.length; i++ ) {
-				if (message.author.id === specialUsers[i]) {
-					validUser = true;
-					break;
-				}
-				else validUser = false;
-			}
-
-			console.log(`Message author: ${message.author.id}`);
-			console.log(`Special users: ${specialUsers}`);
-			console.log(`Is valid: ${validUser}`);
-
-			if (validUser) {
-				let ctr = 0;
-				while (ctr < number) {
-					message.channel.send(`<@${userSpammed}>`)
-					ctr++;
-				}
-			} else {
+			} else if (number > 20) {
 				const errorEmbed = new Discord.MessageEmbed()
 					.setTitle('Error:')
 					.addField(
-						'Missing perms:',
-						`Nisi tok kul! You can't control me!!!`,
+						'Limit:',
+						`You can only spam a user 20 times or less!`,
 						false
 					)
 					.setColor('#DD1627')
-				return message.channel.send(errorEmbed);
+				message.channel.send(errorEmbed);
+				return perms = false;
+			}
+			
+			while (perms) {
+				for ( let i = 0; i < specialUsers.length; i++ ) {
+					if (message.author.id === specialUsers[i]) {
+						validUser = true;
+						break;
+					}
+					else validUser = false;
+				}
+	
+				console.log(`Message author: ${message.author.id}`);
+				console.log(`Special users: ${specialUsers}`);
+				console.log(`Is valid: ${validUser}`);
+	
+				if (validUser) {
+					let ctr = 0;
+					while (ctr < number) {
+						message.channel.send(`<@${userSpammed}>`)
+						ctr++;
+					}
+					perms = false;
+				} else {
+					const errorEmbed = new Discord.MessageEmbed()
+						.setTitle('Error:')
+						.addField(
+							'Missing perms:',
+							`Nisi tok kul! You can't control me!!!`,
+							false
+						)
+						.setColor('#DD1627')
+					return message.channel.send(errorEmbed);
+				}
 			}
 		}
 
