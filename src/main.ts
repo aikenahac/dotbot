@@ -18,6 +18,8 @@ const twitter_user_secret = process.env.TWITTER_USER_SECRET;
 
 let status = '';
 
+let specialUsers = ['315446934502506497', '693392512521469973', '485111024404660235', '316963808792805376', '262846982588989450'];
+
 const oauth = new OAuth.OAuth(
 	'https://api.twitter.com/oauth/request_token',
 	'https://api.twitter.com/oauth/access_token',
@@ -114,7 +116,7 @@ client.on('message', message => {
 				.setColor('#DD1627')
 			return message.channel.send(errorEmbed);
 		} else if (message.author.id === '315446934502506497'){
-			CommandHandler.sendMessage(message, args.join(" "));
+			CommandHandler.sendMessage(message, args.join(" "), specialUsers);
 		} else {
 			const errorEmbed = new Discord.MessageEmbed()
 				.setTitle('Error:')
@@ -129,7 +131,34 @@ client.on('message', message => {
 	}
 
 	else if (command == "spam") {
-		let userSpammed = message.mentions.users.first().id;
+		let userSpammed;
+
+		let guild = message.member.guild;
+
+		if (message.mentions.users.first().id == undefined) {
+			const errorEmbed = new Discord.MessageEmbed()
+				.setTitle('Error:')
+				.addField(
+					'Invalid user:',
+					`The user you have mentioned is either not a user`,
+					false
+				)
+				.setColor('#DD1627')
+			return message.channel.send(errorEmbed);
+		} else {
+			if (!guild.member(message.mentions.users.first().id)) {
+				const errorEmbed = new Discord.MessageEmbed()
+					.setTitle('Error:')
+					.addField(
+						'Invalid user:',
+						`The user you have mentioned is not in this server`,
+						false
+					)
+					.setColor('#DD1627')
+				return message.channel.send(errorEmbed);
+			}
+			userSpammed = message.mentions.users.first().id;
+		}
 
 		if (args.length == 0) {
 			const errorEmbed = new Discord.MessageEmbed()
@@ -142,7 +171,7 @@ client.on('message', message => {
 				.setColor('#DD1627')
 			return message.channel.send(errorEmbed);
 		} else {
-			CommandHandler.spamUser(message, userSpammed, args[1]);
+			CommandHandler.spamUser(message, userSpammed, args[1], specialUsers);
 		}
 	}
 

@@ -170,11 +170,26 @@ export default class CommandHandler {
 			}
 		}
 
-		static spamUser(message, userSpammed, number) {
+		static spamUser(message, userSpammed, number, specialUsers) {
+			let validUser;
+
 			if (number == undefined) {
 				number = 5;
 			}
-			if (message.author.id === '315446934502506497') {
+
+			for ( let i = 0; i < specialUsers.length; i++ ) {
+				if (message.author.id === specialUsers[i]) {
+					validUser = true;
+					break;
+				}
+				else validUser = false;
+			}
+
+			console.log(`Message author: ${message.author.id}`);
+			console.log(`Special users: ${specialUsers}`);
+			console.log(`Is valid: ${validUser}`);
+
+			if (validUser) {
 				let ctr = 0;
 				while (ctr < number) {
 					message.channel.send(`<@${userSpammed}>`)
@@ -185,7 +200,7 @@ export default class CommandHandler {
 					.setTitle('Error:')
 					.addField(
 						'Missing perms:',
-						`Nisi moj očka! You can't control me!!!`,
+						`Nisi tok kul! You can't control me!!!`,
 						false
 					)
 					.setColor('#DD1627')
@@ -193,10 +208,32 @@ export default class CommandHandler {
 			}
 		}
 
-		static sendMessage(message, msgToSend) {
-			console.log("sending custom message");
-			message.delete();
-			return message.channel.send(msgToSend);
+		static sendMessage(message, msgToSend, specialUsers) {
+			let validUser;
+
+			for ( let i = 0; i < specialUsers; i++ ) {
+				if (message.author.id === specialUsers[i]) {
+					validUser = true;
+					break;
+				}
+				else validUser = false;
+			}
+
+			if (validUser) {
+				console.log("sending custom message");
+				message.delete();
+				return message.channel.send(msgToSend);
+			} else {
+				const errorEmbed = new Discord.MessageEmbed()
+					.setTitle('Error:')
+					.addField(
+						'Missing perms:',
+						`Nisi tok kul! You can't control me!!!`,
+						false
+					)
+					.setColor('#DD1627')
+				return message.channel.send(errorEmbed);
+			}
 		}
 
 		static personalTweet(accessToken, userSecret, status, message, oauth) {
