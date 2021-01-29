@@ -56,6 +56,10 @@ client.on('message', message => {
 		CommandHandler.helpMenu(message);
 	}
 
+	else if (command == "shelp") {
+		CommandHandler.specialHelp(message);
+	}
+
 	else if (command == "clear") {
 		if (args.length > 1) {
 			return message.channel.send(`Please set only one argument ${message.author}`);

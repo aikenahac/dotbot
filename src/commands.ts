@@ -295,7 +295,7 @@ export default class CommandHandler {
 			}
 		}
 
-		static async helpMenu(message) {
+		static helpMenu(message) {
 			const helpEmbed = new Discord.MessageEmbed()
 				.setTitle(`Help commands:`)
 				.setURL('https://github.com/aikenahac/dotbot')
@@ -308,9 +308,11 @@ export default class CommandHandler {
 				.addFields(
 					{ name: '\u200B', value: '\u200B' },
 					{ name: 'help', value: 'Displays this help section' },
-					{ name: 'clear', value: 'Clears the specified number of messages: `db!clear [number]**`' },
+					{ name: 'clear', value: 'Clears the specified number of messages: `db!clear [number]*`' },
 					{ name: 'kick', value: 'Kicks specified user: `db!kick [user] [reason]*|**`' },
-					{ name: 'ban', value: 'Bans specified user: `db!ban [user] [reason]*|**`' }
+					{ name: 'ban', value: 'Bans specified user: `db!ban [user] [reason]*|**`' },
+					{ name: '\u200B', value: '\u200B' },
+					{ name: 'Additional info', value: 'Arguments marked with * are optional\nArguments marked with ** require permissions' }
 				)
 				.setFooter(`Requested by ${message.author.tag}`, message.author.avatarURL)
 				.setTimestamp()
@@ -319,19 +321,27 @@ export default class CommandHandler {
 			return message.channel.send(helpEmbed);
 		}
 
-		static helpSpecial(message) {
-			const helpEmbed1 = new Discord.MessageEmbed()
-				.setTitle(`Special user commands:`)
+		static specialHelp(message) {
+			const helpEmbed = new Discord.MessageEmbed()
+				.setTitle(`Comands for special ppl:`)
+				.setURL('https://github.com/aikenahac/dotbot')
+				.setAuthor('Aiken Tine Ahac', 'https://avatars.githubusercontent.com/u/30961404?s=460&v=4', 'https://github.com/aikenahac/')
+				.setThumbnail('https://qtxasset.com/fiercebiotech/1568212087/connor-wells-534089-unsplash.jpg/connor-wells-534089-unsplash.jpg')
 				.addField(
-					'spam',
-					'Spams specified user: `db!spam [user] [number]*`'
+					'Prefix:',
+					'Use the db! prefix for your commands'
 				)
-				.addField(
-					'say',
-					'Makes bot say something: `db!say [message]`'
+				.addFields(
+					{ name: '\u200B', value: '\u200B' },
+					{ name: 'spam', value: 'Spams specified user: `db!spam [user] [number]*`' },
+					{ name: 'say', value: 'Makes the bot say something: `db!say [number]*`' },
+					{ name: '\u200B', value: '\u200B' },
+					{ name: 'Additional info', value: 'Arguments marked with * are optional' }
 				)
-				.setColor('#F1C40F')
-			
-			return message.channel.send(helpEmbed1);
+				.setFooter(`Requested by ${message.author.tag}`, message.author.avatarURL)
+				.setTimestamp()
+				.setColor('#FF5D96')
+		
+			return message.channel.send(helpEmbed);
 		}
 }
