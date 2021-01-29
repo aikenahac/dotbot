@@ -1,9 +1,13 @@
 import Discord from 'discord.js';
 import dotenv from 'dotenv';
 import OAuth from 'oauth';
+
 import CommandHandler from './commands';
+import MusicHandler from './music';
 
 dotenv.config();
+
+const queue = new Map();
 
 const client = new Discord.Client();
 
@@ -32,6 +36,16 @@ const oauth = new OAuth.OAuth(
 
 client.login(token);
 
+client.once('ready', () => {
+    console.log('Ready!');
+});
+client.once('reconnecting', () => {
+    console.log('Reconnecting!');
+});
+client.once('disconnect', () => {
+    console.log('Disconnect!');
+});
+
 client.on('ready', () => {
 	console.log('Logged in as ' + client.user.tag);
 	client.user.setActivity(
@@ -45,6 +59,7 @@ client.on('ready', () => {
 client.on('message', message => {
 	const args = message.content.slice(prefix.length).trim().split(' ');
 	const command = args.shift().toLowerCase();
+	const serverQueue = queue.get(message.guild.id);
 
 	if(message.content.toLowerCase().includes("we ded") && !message.author.bot) {
 		return message.channel.send("we ded");
@@ -169,6 +184,10 @@ client.on('message', message => {
 			oauth
 		)
 	}
+
+	else if (command == "play") return MusicHandler.execute(message, serverQueue, queue);
+	else if (command == "skip") return MusicHandler.skip(message, serverQueue);
+	else if (command == "stop") return MusicHandler.stop(message, serverQueue);
 
 	else {
 		const errorEmbed = new Discord.MessageEmbed()
