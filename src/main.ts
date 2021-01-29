@@ -187,7 +187,7 @@ client.on('message', message => {
 
 	else if (command == "play") return MusicHandler.execute(message, serverQueue, queue);
 	else if (command == "skip") return MusicHandler.skip(message, serverQueue);
-	else if (command == "stop") return MusicHandler.stop(message, serverQueue);
+	else if (command == "stop" || command == "die") return MusicHandler.stop(message, serverQueue);
 
 	else {
 		const errorEmbed = new Discord.MessageEmbed()
