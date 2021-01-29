@@ -52,6 +52,10 @@ client.on('message', message => {
 
 	else if (!message.content.startsWith(prefix) || message.author.bot) return;
 
+	else if (command == "help") {
+		CommandHandler.helpMenu(message);
+	}
+
 	else if (command == "clear") {
 		if (args.length > 1) {
 			return message.channel.send(`Please set only one argument ${message.author}`);
@@ -76,18 +80,6 @@ client.on('message', message => {
 			reason = "No reason provided";
 		}
 		CommandHandler.kickUser(message, reason, botRoles, userRoles, senderRoles, defaultRole);
-	}
-	
-	else if (command == "args") {
-		if (args.length == 0) {
-			return message.channel.send("Whose ID do you want?");
-		} else {
-			let reason = (args.slice(1)).join(" ");
-			
-			console.log(`User ID: ${message.mentions.users.first().id}`);
-			console.log(reason);
-			if (reason == "") console.log("null");
-		}
 	}
 
 	else if (command == "ban") {
@@ -133,30 +125,17 @@ client.on('message', message => {
 	else if (command == "spam") {
 		let userSpammed;
 
-		let guild = message.member.guild;
-
-		if (message.mentions.users.first().id == undefined) {
+		if (!message.mentions.users.first()) {
 			const errorEmbed = new Discord.MessageEmbed()
 				.setTitle('Error:')
 				.addField(
 					'Invalid user:',
-					`The user you have mentioned is either not a user`,
+					`The user you have mentioned is either:\n  - not a user,\n  - not in this server`,
 					false
 				)
 				.setColor('#DD1627')
 			return message.channel.send(errorEmbed);
 		} else {
-			if (!guild.member(message.mentions.users.first().id)) {
-				const errorEmbed = new Discord.MessageEmbed()
-					.setTitle('Error:')
-					.addField(
-						'Invalid user:',
-						`The user you have mentioned is not in this server`,
-						false
-					)
-					.setColor('#DD1627')
-				return message.channel.send(errorEmbed);
-			}
 			userSpammed = message.mentions.users.first().id;
 		}
 

@@ -175,7 +175,10 @@ export default class CommandHandler {
 
 			if (number == undefined) {
 				number = 5;
+				perms = true;
+				console.log(`Number: ${number}`);
 			} else if (number > 20) {
+				console.log(`Number: ${number}`);
 				const errorEmbed = new Discord.MessageEmbed()
 					.setTitle('Error:')
 					.addField(
@@ -185,8 +188,9 @@ export default class CommandHandler {
 					)
 					.setColor('#DD1627')
 				message.channel.send(errorEmbed);
+				console.log(`Sending error embed`);
 				return perms = false;
-			}
+			} else perms = true;
 			
 			while (perms) {
 				for ( let i = 0; i < specialUsers.length; i++ ) {
@@ -225,7 +229,7 @@ export default class CommandHandler {
 		static sendMessage(message, msgToSend, specialUsers) {
 			let validUser;
 
-			for ( let i = 0; i < specialUsers; i++ ) {
+			for ( let i = 0; i < specialUsers.length; i++ ) {
 				if (message.author.id === specialUsers[i]) {
 					validUser = true;
 					break;
@@ -289,5 +293,45 @@ export default class CommandHandler {
 					.setColor('#DD1627')
 				return message.channel.send(errorEmbed);
 			}
+		}
+
+		static async helpMenu(message) {
+			const helpEmbed = new Discord.MessageEmbed()
+				.setTitle(`Help commands:`)
+				.setURL('https://github.com/aikenahac/dotbot')
+				.setAuthor('Aiken Tine Ahac', 'https://avatars.githubusercontent.com/u/30961404?s=460&v=4', 'https://github.com/aikenahac/')
+				.setThumbnail('https://cdn.discordapp.com/avatars/785432195413049374/fcabae17c37bf92aa220d8ed254ad09b.webp')
+				.addField(
+					'Prefix:',
+					'Use the db! prefix for your commands'
+				)
+				.addFields(
+					{ name: '\u200B', value: '\u200B' },
+					{ name: 'help', value: 'Displays this help section' },
+					{ name: 'clear', value: 'Clears the specified number of messages: `db!clear [number]**`' },
+					{ name: 'kick', value: 'Kicks specified user: `db!kick [user] [reason]*|**`' },
+					{ name: 'ban', value: 'Bans specified user: `db!ban [user] [reason]*|**`' }
+				)
+				.setFooter(`Requested by ${message.author.tag}`, message.author.avatarURL)
+				.setTimestamp()
+				.setColor('#F1C40F')
+		
+			return message.channel.send(helpEmbed);
+		}
+
+		static helpSpecial(message) {
+			const helpEmbed1 = new Discord.MessageEmbed()
+				.setTitle(`Special user commands:`)
+				.addField(
+					'spam',
+					'Spams specified user: `db!spam [user] [number]*`'
+				)
+				.addField(
+					'say',
+					'Makes bot say something: `db!say [message]`'
+				)
+				.setColor('#F1C40F')
+			
+			return message.channel.send(helpEmbed1);
 		}
 }
