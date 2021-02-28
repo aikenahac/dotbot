@@ -231,7 +231,7 @@ async function initWebhooks(channelId) {
 		const channel = client.channels.cache.get(channelId) as Discord.TextChannel;
 		const webhooks = await channel.fetchWebhooks();
 		const myWebhooks = await webhooks.filter(webhook =>{
-			if (!webhook.owner) return;
+			if (!(webhook.owner as Discord.User).id) return;
 			return (webhook.owner as Discord.User).id === client.user.id && webhook.name === "DotBot-Hole";
 
 		})
