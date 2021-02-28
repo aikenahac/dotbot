@@ -1,4 +1,4 @@
-import Discord from 'discord.js';
+import Discord, { Message } from 'discord.js';
 import dotenv from 'dotenv';
 import OAuth from 'oauth';
 
@@ -230,7 +230,11 @@ async function initWebhooks(channelId) {
 	try {
 		const channel = client.channels.cache.get(channelId) as Discord.TextChannel;
 		const webhooks = await channel.fetchWebhooks();
-		const myWebhooks = await webhooks.filter(webhook => (webhook.owner as Discord.User).id === client.user.id && webhook.name === "DotBot-Hole")
+		const myWebhooks = await webhooks.filter(webhook =>{
+			if (!webhook.owner) return;
+			return (webhook.owner as Discord.User).id === client.user.id && webhook.name === "DotBot-Hole";
+
+		})
 		myWebhooks.forEach(webhook => webhook.delete(`DotBot is ded`))
 
 		await channel.createWebhook('DotBot-Hole', {
