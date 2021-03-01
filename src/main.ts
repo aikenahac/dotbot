@@ -5,7 +5,6 @@ import OAuth from 'oauth';
 import CommandHandler from './commands';
 import MusicHandler from './music';
 
-import { tunnel } from './config.json';
 
 dotenv.config();
 
@@ -50,7 +49,6 @@ client.once('disconnect', () => {
 
 client.on('ready', () => {
 	console.log('Logged in as ' + client.user.tag);
-	tunnel.forEach(channelId => initWebhooks(channelId))
 	client.user.setActivity(
 		{
 			name: 'your problems',
@@ -60,26 +58,6 @@ client.on('ready', () => {
 });
 
 client.on('message', message => {
-	try {
-		if (message.webhookID || !tunnel.includes(message.channel.id)) return null;
-		
-		const channels = tunnel.filter(id => id !== message.channel.id);
-
-		channels.forEach(async channelId => {
-			const channel = client.channels.cache.get(channelId) as Discord.TextChannel;
-
-			const webhooks = await channel.fetchWebhooks();
-			const webhook = webhooks.find(webhook => (webhook.owner as Discord.User).id  === client.user.id && webhook.name === 'DotBot-Hole')
-			webhook.send(message.content || '', {
-				username: message.author.username,
-				avatarURL: message.author.avatarURL(),
-				embeds: message.embeds
-			})
-		})
-	} catch (error) {
-		console.log("Uh oh you fucked up w/ the wormhole fucktard.")
-		console.log("This is the error: " + error);
-	}
 
 	const args = message.content.slice(prefix.length).trim().split(' ');
 	const command = args.shift().toLowerCase();
@@ -225,22 +203,3 @@ client.on('message', message => {
 		return message.channel.send(errorEmbed);
 	}
 });
-
-async function initWebhooks(channelId) {
-	try {
-		const channel = client.channels.cache.get(channelId) as Discord.TextChannel;
-		const webhooks = await channel.fetchWebhooks();
-		const myWebhooks = await webhooks.filter(webhook =>{
-			if (!(webhook.owner as Discord.User).id) return;
-			return (webhook.owner as Discord.User).id === client.user.id && webhook.name === "DotBot-Hole";
-
-		})
-		myWebhooks.forEach(webhook => webhook.delete(`DotBot is ded`))
-
-		await channel.createWebhook('DotBot-Hole', {
-			avatar: 'https://cdn.discordapp.com/avatars/785432195413049374/fcabae17c37bf92aa220d8ed254ad09b.png',
-		})
-	} catch (err) { 
-		console.log(`Error in webhook creation: \n${err}`)
-	}
-}
