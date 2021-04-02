@@ -1,4 +1,6 @@
 import Discord from "discord.js";
+import fs from "fs";
+import {deleteTempImage, generateImage} from "./helper";
 
 export default class CommandHandler {
 
@@ -247,6 +249,55 @@ export default class CommandHandler {
 				.setColor('#DD1627')
 			return message.channel.send(errorEmbed);
 		}
+	}
+
+	static tweetSpam(message, tweetMaster) {
+		generateImage(message);
+		console.log('Sent img');
+
+		if (message.attachments.size > 0) {
+			const errorEmbed = new Discord.MessageEmbed()
+				.setTitle('Error:')
+				.addField(
+					'Sike, you thought:',
+					`Ne boš mi ti slikic gor pošilju, ne ne`,
+					false
+				)
+				.setColor('#DD1627')
+			return message.channel.send(errorEmbed);
+		} else if (message.content.includes('https://')) {
+			const errorEmbed = new Discord.MessageEmbed()
+				.setTitle('Error:')
+				.addField(
+					'Sike, you thought:',
+					`No no, ne mi ti linkou gor pošiljat prosm.`,
+					false
+				)
+				.setColor('#DD1627')
+			return message.channel.send(errorEmbed);
+		}
+
+		const imageToSend = fs.readFileSync(`src/tweetMedia/${message.author.id}.png`);
+
+		tweetMaster.post('media/upload', {media: imageToSend}, (error, media, response) => {
+			if (error) {
+				console.log(error);
+			} else {
+				const status = {
+					status: "Tweeted from Discord!",
+					media_ids: media.media_id_string
+				}
+
+				tweetMaster.post('statuses/update', status, (error, tweet, response) => {
+					if(error) {
+						console.log(error)
+					} else {
+						console.log('Tweeted from Discord!')
+						deleteTempImage(message)
+					}
+				})
+			}
+		})
 	}
 
 	static personalTweet(accessToken, userSecret, status, message, oauth) {

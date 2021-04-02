@@ -1,6 +1,7 @@
 import Discord, { Message } from 'discord.js';
 import dotenv from 'dotenv';
 import OAuth from 'oauth';
+import Twitter from 'twitter';
 
 import CommandHandler from './commands';
 import MusicHandler from './music';
@@ -21,6 +22,13 @@ const twitter_app_secret = process.env.APP_SECRET_TWITTER;
 const twitter_user_access_token = process.env.TWITTER_ACCESS_TOKEN;
 const twitter_user_secret = process.env.TWITTER_USER_SECRET;
 
+const tweetMaster = new Twitter({
+	consumer_key: twitter_api_key,
+	consumer_secret: twitter_app_secret,
+	access_token_key: twitter_user_access_token,
+	access_token_secret: twitter_user_secret
+});
+
 let status = '';
 
 let specialUsers = ['315446934502506497', '693392512521469973', '485111024404660235', '316963808792805376', '262846982588989450', '329309152872759297', '691930634733748226'];
@@ -35,7 +43,7 @@ const oauth = new OAuth.OAuth(
 	'HMAC-SHA1'
 );
 
-client.login(token);
+client.login(token).then(() => console.log('Logged in!'));
 
 client.once('ready', () => {
     console.log('Ready!');
@@ -54,7 +62,7 @@ client.on('ready', () => {
 			name: 'your problems',
 			type: 'LISTENING'
 		}
-	);
+	).then(() => console.log('Activity set!'));
 });
 
 client.on('message', message => {
@@ -66,6 +74,10 @@ client.on('message', message => {
 	if(message.content.toLowerCase().includes("we ded") && !message.author.bot) {
 		return message.channel.send("we ded");
 	}
+
+	/*else if (message.channel.id === '827473897091891230' && !message.author.bot) {
+		CommandHandler.tweetSpam(message, tweetMaster);
+	}*/
 
 	else if (!message.content.startsWith(prefix) || message.author.bot) return;
 
