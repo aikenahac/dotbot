@@ -1,5 +1,13 @@
+# Folders that shouldn't be commited (cuz they big)
 node_modules/
-.env
-.vscode/
-build/
 src/tweetMedia/
+
+# Private configs
+.env
+
+# IDE configs
+.vscode/
+.idea/
+
+# Build data
+build/
