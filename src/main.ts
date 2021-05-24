@@ -67,6 +67,8 @@ client.on('ready', () => {
 
 client.on('message', message => {
 
+	console.log(`[${message.author.username}] ➤ ${message.content} [${message.guild.name}]`)
+
 	const args = message.content.slice(prefix.length).trim().split(' ');
 	const command = args.shift().toLowerCase();
 	const serverQueue = queue.get(message.guild.id);
@@ -74,10 +76,6 @@ client.on('message', message => {
 	if(message.content.toLowerCase().includes("we ded") && !message.author.bot) {
 		return message.channel.send("we ded");
 	}
-
-	/*else if (message.channel.id === '827473897091891230' && !message.author.bot) {
-		CommandHandler.tweetSpam(message, tweetMaster);
-	}*/
 
 	else if (!message.content.startsWith(prefix) || message.author.bot) return;
 
