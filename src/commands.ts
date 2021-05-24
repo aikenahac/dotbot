@@ -234,6 +234,10 @@ export default class CommandHandler {
 			}
 			else validUser = false;
 		}
+
+		console.log(`Message author: ${message.author.id}`);
+		console.log(`Is valid: ${validUser}`);
+
 		if (validUser) {
 			console.log("sending custom message");
 			message.delete();
