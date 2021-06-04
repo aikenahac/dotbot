@@ -1,91 +1,190 @@
-import ytdl from 'ytdl-core';
+import { Logger } from 'tslog';
+import Discord from "discord.js";
+import {banUser} from "./commands";
 
-export default class MusicHandler {
-    static async execute(message, serverQueue, queue) {
-        const args = message.content.split(" ");
-      
-        const voiceChannel = message.member.voice.channel;
-        if (!voiceChannel)
-          return message.channel.send(
-            "You need to be in a voice channel to play music!"
-          );
-        const permissions = voiceChannel.permissionsFor(message.client.user);
-        if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) {
-          return message.channel.send(
-            "I need the permissions to join and speak in your voice channel!"
-          );
-        }
-      
-        const songInfo = await ytdl.getInfo(args[1]);
-        const song = {
-          title: songInfo.videoDetails.title,
-          url: songInfo.videoDetails.video_url
-        };
-      
-        if (!serverQueue) {
-          const queueContruct = {
-            textChannel: message.channel,
-            voiceChannel: voiceChannel,
-            connection: null,
-            songs: [],
-            volume: 5,
-            playing: true
-          };
-      
-          queue.set(message.guild.id, queueContruct);
-      
-          queueContruct.songs.push(song);
-      
-          try {
-            var connection = await voiceChannel.join();
-            queueContruct.connection = connection;
-            MusicHandler.play(message.guild, queueContruct.songs[0], queue);
-          } catch (err) {
-            console.log(err);
-            queue.delete(message.guild.id);
-            return message.channel.send(err);
-          }
-        } else {
-          serverQueue.songs.push(song);
-          return message.channel.send(`${song.title} has been added to the queue!`);
-        }
-      }
-      
-      static skip(message, serverQueue) {
-        if (!message.member.voice.channel)
-          return message.channel.send(
-            "You have to be in a voice channel to stop the music!"
-          );
-        if (!serverQueue)
-          return message.channel.send("There is no song that I could skip!");
-        serverQueue.connection.dispatcher.end();
-      }
-      
-      static stop(message, serverQueue) {
-        if (!message.member.voice.channel)
-          return message.channel.send(
-            "You have to be in a voice channel to stop the music!"
-          );
-        serverQueue.songs = [];
-        serverQueue.connection.dispatcher.end();
-      }
-      
-      static play(guild, song, queue) {
-        const serverQueue = queue.get(guild.id);
-        if (!song) {
-          serverQueue.voiceChannel.leave();
-          queue.delete(guild.id);
-          return;
-        }
-      
-        const dispatcher = serverQueue.connection
-          .play(ytdl(song.url))
-          .on("finish", () => {
-            serverQueue.songs.shift();
-            MusicHandler.play(guild, serverQueue.songs[0], queue);
-          })
-          .on("error", error => console.error(error));
-        dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
-        serverQueue.textChannel.send(`Start playing: **${song.title}**`);
-      }
+const log = new Logger();
+
+export async function play(message, player, args) {
+    if (args.length === 0) {
+        const errorEmbed = new Discord.MessageEmbed()
+            .setTitle('Error:')
+            .addField(
+                'Argument error:',
+                `Please specify the song.`,
+                false
+            )
+            .setColor('#DD1627')
+        return message.channel.send(errorEmbed);
+    }
+
+    if (player.isPlaying(message)) {
+        const song = await player.addToQueue(message, args.join(' '));
+
+        if (song) log.info(`Added ${song.name} to the queue.`);
+    } else {
+        const song = await player.play(message, {
+            search: args.join(' '),
+            requestedBy: message.author.tag
+        });
+
+        if (song) log.info(`Started playing ${song.name}`);
+    }
+}
+
+export async function playlist(message, player, args, shuffle) {
+    await player.playlist(message, {
+        search: args.join(' '),
+        maxSongs: 150,
+        requestedBy: message.author.tag,
+        shuffle: shuffle
+    })
+}
+
+export async function nowPlaying(message, player) {
+    const song = await player.nowPlaying(message);
+
+    if (song) {
+        const songEmbed = new Discord.MessageEmbed()
+            .setTitle(`Currently playing ${song.name} by ${song.author}`)
+            .setURL(`${song.url}`)
+            .setAuthor('Aiken Tine Ahac', 'https://avatars.githubusercontent.com/u/30961404?s=460&v=4', 'https://github.com/aikenahac/')
+            .setThumbnail(`${song.thumbnail}`)
+            .setFooter(`Requested by ${song.requestedBy}`)
+            .setTimestamp()
+            .setColor('#FF5D96')
+
+        message.channel.send(songEmbed)
+    }
+}
+
+export function clearQueue(message, player) {
+    const isDone = player.clearQueue(message);
+
+    if (isDone) {
+        const successEmbed = new Discord.MessageEmbed()
+            .setTitle('Success!')
+            .addField(
+                'Cleared queue',
+                false
+            )
+            .setColor('#43B581')
+        return message.channel.send(successEmbed);
+    }
+}
+
+export async function seekTime(message, player, args) {
+    const song = await player.seek(message, parseInt(String(args[0] * 1000))).catch(err => {
+        return message.channel.send(err.message);
+    });
+
+    const successEmbed = new Discord.MessageEmbed()
+        .setTitle('Success!')
+        .addField(
+            'Skipped to timestamp',
+            `Successfully skipped to ${args[0]} second of ${song.name}`,
+            false
+        )
+        .setColor('#43B581')
+    return message.channel.send(successEmbed);
+}
+
+export function queue(message, player) {
+    const queue = player.getQueue(message);
+
+    if(queue)
+        message.channel.send('Queue:\n'+(queue.songs.map((song, i) => {
+            return `${i === 0 ? 'Now Playing' : `#${i+1}`} - ${song.name} | ${song.author}`
+        }).join('\n')));
+}
+
+export function skip(message, player) {
+    const song = player.skip(message);
+
+    if (song) message.react('⏭️')
+}
+
+export function remove(message, player, args) {
+    const SongID = parseInt(args[0])-1;
+    const song = player.remove(message, SongID);
+
+    if(song) message.react('⏹➖');
+}
+
+export function pause(message, player) {
+    const song = player.pause(message);
+
+    if (song) message.react('⏸️');
+}
+
+export function resume(message, player) {
+    const song = player.resume(message);
+
+    if (song) message.react('▶️');
+}
+
+export function stop(message, player) {
+    const isDone = player.stop(message);
+
+    if (isDone) message.react('⏹️');
+}
+
+export function shuffle(message, player) {
+    const songs = player.shuffle(message);
+
+    if (songs) message.react('⏺️');
+}
+
+export function loopSong(message, player) {
+    const toggle = player.toggleLoop(message);
+
+    if (toggle === null) return;
+    else if (toggle) {
+        const loopEmbed = new Discord.MessageEmbed()
+            .setTitle('Now looping song!')
+            .setColor('#43B581')
+        return message.channel.send(loopEmbed);
+    } else {
+        const loopEmbed = new Discord.MessageEmbed()
+            .setTitle('No longer looping song!')
+            .setColor('#43B581')
+        return message.channel.send(loopEmbed);
+    }
+}
+
+export function loopQueue(message, player) {
+    const toggle = player.toggleQueueLoop(message);
+
+    if (toggle === null) return;
+    else if (toggle) {
+        const loopEmbed = new Discord.MessageEmbed()
+            .setTitle('Now looping queue!')
+            .setColor('#43B581')
+        return message.channel.send(loopEmbed);
+    } else {
+        const loopEmbed = new Discord.MessageEmbed()
+            .setTitle('No longer looping queue!')
+            .setColor('#43B581')
+        return message.channel.send(loopEmbed);
+    }
+}
+
+export function setVolume(message, player, args) {
+    const isDone = player.setVolume(message, parseInt(args[0]));
+
+    if (isDone) {
+        const loopEmbed = new Discord.MessageEmbed()
+            .setTitle(`Volume set to ${args[0]}%!`)
+            .setColor('#43B581')
+        return message.channel.send(loopEmbed);
+    }
+}
+
+export function progress(message, player) {
+    const progressBar = player.createProgressBar(message, {
+        size: 20,
+        block: '█',
+        arrow: '╠'
+    })
+
+    if (progressBar) message.channel.send(progressBar);
 }

@@ -1,4 +1,3 @@
-import Discord from "discord.js";
 import fs from "fs";
 import text2png from 'text2png';
 
