@@ -60,10 +60,10 @@ export function clearFunction(args, message) {
 }
 
 export function kickUser(message, args) {
-	let botRoles = message.guild.me.roles.cache.array();
-	let userRoles = message.mentions.members.first().roles.highest;
-	let senderRoles = message.member.roles.highest;
-	let defaultRole = message.guild.roles.cache.find(role => role.name === "[db!] DotBot");
+	const botRoles = message.guild.me.roles.cache.array();
+	const userRoles = message.mentions.members.first().roles.highest;
+	const senderRoles = message.member.roles.highest;
+	const defaultRole = message.guild.roles.cache.find(role => role.name === "[db!] DotBot");
 
 	let reason = (args.slice(1)).join(" ");
 
@@ -74,8 +74,9 @@ export function kickUser(message, args) {
 	log.info("attempting kick");
 
 	if (message.member.hasPermission("KICK_MEMBERS") && message.guild.me.hasPermission("KICK_MEMBERS")) {
-		let userKicked = message.mentions.users.first().id;
-		let ownerID = message.guild.ownerID;
+		const userKicked = message.mentions.users.first().id;
+		const ownerID = message.guild.ownerID;
+
 		if (userKicked == ownerID) {
 			const errorEmbed = new Discord.MessageEmbed()
 				.setTitle('Error:')
@@ -160,10 +161,10 @@ export function kickUser(message, args) {
 }
 
 export function banUser(message, args) {
-	let botRoles = message.guild.me.roles.cache.array();
-	let userRoles = message.mentions.members.first().roles.highest;
-	let senderRoles = message.member.roles.highest;
-	let defaultRole = message.guild.roles.cache.find(role => role.name === "[db!] DotBot");
+	const botRoles = message.guild.me.roles.cache.array();
+	const userRoles = message.mentions.members.first().roles.highest;
+	const senderRoles = message.member.roles.highest;
+	const defaultRole = message.guild.roles.cache.find(role => role.name === "[db!] DotBot");
 
 	let reason = (args.slice(1)).join(" ");
 
