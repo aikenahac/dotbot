@@ -1,6 +1,5 @@
 import { Logger } from 'tslog';
 import Discord from "discord.js";
-import {banUser} from "./commands";
 
 const log = new Logger();
 
@@ -42,12 +41,18 @@ export async function playlist(message, player, args, shuffle) {
 
 export async function nowPlaying(message, player) {
     const song = await player.nowPlaying(message);
+    const progressBar = player.createProgressBar(message, {
+        size: 20,
+        block: '█',
+        arrow: '█'
+    })
 
     if (song) {
         const songEmbed = new Discord.MessageEmbed()
             .setTitle(`Currently playing ${song.name} by ${song.author}`)
             .setURL(`${song.url}`)
             .setAuthor('Aiken Tine Ahac', 'https://avatars.githubusercontent.com/u/30961404?s=460&v=4', 'https://github.com/aikenahac/')
+            .setDescription(progressBar)
             .setThumbnail(`${song.thumbnail}`)
             .setFooter(`Requested by ${song.requestedBy}`)
             .setTimestamp()
@@ -183,7 +188,7 @@ export function progress(message, player) {
     const progressBar = player.createProgressBar(message, {
         size: 20,
         block: '█',
-        arrow: '╠'
+        arrow: '█'
     })
 
     if (progressBar) message.channel.send(progressBar);

@@ -109,7 +109,7 @@ client.on('message', async message => {
 
     switch(command) {
         case 'help':
-            helpMenu(message);
+            helpMenu(message, args);
             break;
         case 'shelp':
             specialHelp(message);
@@ -135,13 +135,13 @@ client.on('message', async message => {
         case 'playlist':
             await playlist(message, player, args, false);
             break;
-        case 'playlistShuffle':
+        case 'playlist-shuffle':
             await playlist(message, player, args, true);
             break;
         case 'song':
             await nowPlaying(message, player);
             break;
-        case 'clearQueue':
+        case 'clear-queue':
             clearQueue(message, player);
             break;
         case 'skipto':
@@ -165,7 +165,7 @@ client.on('message', async message => {
         case 'stop':
         case 'die':
         case 'kys':
-        case 'removeUrself':
+        case 'remove-urself':
         case 'umri':
         case 'crkn':
         case 'adios':
@@ -174,7 +174,7 @@ client.on('message', async message => {
         case 'shuffle':
             shuffle(message, player);
             break;
-        case 'loopSong':
+        case 'loop-song':
             loopSong(message, player);
             break;
         case 'loop':

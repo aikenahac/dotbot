@@ -1,56 +1,30 @@
 import Discord from "discord.js";
 import { Logger } from 'tslog';
 
+import {
+	helpEmbed,
+	helpEmbedUtils,
+	helpEmbedMusic,
+	specialHelpEmbed
+} from "./helper";
+
 const log = new Logger();
 
-export function helpMenu(message) {
-	const helpEmbed = new Discord.MessageEmbed()
-		.setTitle(`Help commands:`)
-		.setURL('https://github.com/aikenahac/dotbot')
-		.setAuthor('Aiken Tine Ahac', 'https://avatars.githubusercontent.com/u/30961404?s=460&v=4', 'https://github.com/aikenahac/')
-		.setThumbnail('https://cdn.discordapp.com/avatars/785432195413049374/fcabae17c37bf92aa220d8ed254ad09b.webp')
-		.addField(
-			'Prefix:',
-			'Use the db! prefix for your commands'
-		)
-		.addFields(
-			{ name: '\u200B', value: '\u200B' },
-			{ name: 'help', value: 'Displays this help section' },
-			{ name: 'clear', value: 'Clears the specified number of messages: `db!clear [number]*`' },
-			{ name: 'kick', value: 'Kicks specified user: `db!kick [user] [reason]*|**`' },
-			{ name: 'ban', value: 'Bans specified user: `db!ban [user] [reason]*|**`' },
-			{ name: '\u200B', value: '\u200B' },
-			{ name: 'Additional info', value: 'Arguments marked with * are optional\nArguments marked with ** require permissions' }
-		)
-		.setFooter(`Requested by ${message.author.tag}`, message.author.avatarURL)
-		.setTimestamp()
-		.setColor('#F1C40F')
-
-	return message.channel.send(helpEmbed);
+export function helpMenu(message, args) {
+	switch (args[0]) {
+		case 'utils':
+			message.channel.send(helpEmbedUtils(message));
+			break;
+		case 'music':
+			message.channel.send(helpEmbedMusic(message));
+			break;
+		default:
+			message.channel.send(helpEmbed(message));
+	}
 }
 
 export function specialHelp(message) {
-	const helpEmbed = new Discord.MessageEmbed()
-		.setTitle(`Comands for special ppl:`)
-		.setURL('https://github.com/aikenahac/dotbot')
-		.setAuthor('Aiken Tine Ahac', 'https://avatars.githubusercontent.com/u/30961404?s=460&v=4', 'https://github.com/aikenahac/')
-		.setThumbnail('https://qtxasset.com/fiercebiotech/1568212087/connor-wells-534089-unsplash.jpg/connor-wells-534089-unsplash.jpg')
-		.addField(
-			'Prefix:',
-			'Use the db! prefix for your commands'
-		)
-		.addFields(
-			{ name: '\u200B', value: '\u200B' },
-			{ name: 'spam', value: 'Spams specified user: `db!spam [user] [number]*`' },
-			{ name: 'say', value: 'Makes the bot say something: `db!say [number]*`' },
-			{ name: '\u200B', value: '\u200B' },
-			{ name: 'Additional info', value: 'Arguments marked with * are optional' }
-		)
-		.setFooter(`Requested by ${message.author.tag}`, message.author.avatarURL)
-		.setTimestamp()
-		.setColor('#FF5D96')
-
-	return message.channel.send(helpEmbed);
+	return message.channel.send(specialHelpEmbed(message));
 }
 
 export function clearFunction(args, message) {
