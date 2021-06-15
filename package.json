@@ -1,7 +1,7 @@
 {
   "name": "dotbot",
   "version": "1.0.0",
-  "description": "Just a random Discord bot",
+  "description": "Just a random Discord bot. I made it spam my Twitter account lmao. Twitter: @aikenahac",
   "main": "src/main.ts",
   "scripts": {
     "start": "tsc && node build/main.js",
