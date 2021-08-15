@@ -20,11 +20,13 @@
   "homepage": "https://github.com/Axodus/dotbot#readme",
   "dependencies": {
     "@discordjs/opus": "^0.3.3",
+    "cron": "^1.8.2",
     "discord-music-player": "^7.1.4",
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "ffmpeg": "0.0.4",
     "fluent-ffmpeg": "^2.1.2",
+    "instagram-web-api": "^2.2.2",
     "oauth": "^0.9.15",
     "text2png": "^2.3.0",
     "tsc": "^1.20150623.0",
