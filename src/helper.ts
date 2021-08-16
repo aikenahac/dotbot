@@ -3,19 +3,16 @@ import text2png from 'text2png';
 import Discord from 'discord.js';
 import Instagram from 'instagram-web-api';
 
-export function deleteTempImage(message) {
-  fs.unlinkSync(`src/tweetMedia/${message.author.id}.png`);
+export function deleteImage(fileName) {
+  fs.unlinkSync(`src/assets/generated/${fileName}.png`);
 }
 
-export function generateImage(message) {
-  const author = message.author.tag;
-  const content = message.content;
-
+export function generateImage(fileName, text) {
   fs.writeFileSync(
-    `src/tweetMedia/${message.author.id}.png`,
-    text2png(`Tweeted by: ${author}\n${content}`, {
+    `src/assets/generated/${fileName}.png`,
+    text2png(`${text.join(' ')}`, {
       font: '40px Montserrat',
-      localFontPath: 'src/tweetMedia/Montserrat-Regular.ttf',
+      localFontPath: 'src/assets/Montserrat-Regular.ttf',
       localFontName: 'Montserrat',
       backgroundColor: 'black',
       color: '#38C4E0',
@@ -69,11 +66,8 @@ export const helpEmbed = (message) =>
       { name: '\u200B', value: '\u200B' },
       { name: 'Utils', value: 'Use db!help utils for more info.' },
       { name: 'Music', value: 'Use db!help music for more info.' },
+      { name: 'Miscellaneous', value: 'Use db!help misc for more info.' },
       { name: '\u200B', value: '\u200B' },
-    )
-    .addField(
-      'Additional info',
-      'Arguments marked with * are optional\nCommands marked with ** require permissions',
     )
     .setFooter(`Requested by ${message.author.tag}`, message.author.avatarURL)
     .setTimestamp()
@@ -169,6 +163,39 @@ export const helpEmbedMusic = (message) =>
         value: 'Changes volume `db!volume [number (Between 0 and 200)]`',
       },
       { name: 'progress', value: 'Displays progress bar `db!progress`' },
+      { name: '\u200B', value: '\u200B' },
+    )
+    .addField(
+      'Additional info',
+      'Arguments marked with * are optional\nCommands marked with ** require permissions',
+    )
+    .setFooter(`Requested by ${message.author.tag}`, message.author.avatarURL)
+    .setTimestamp()
+    .setColor('#F1C40F');
+
+export const helpEmbedMisc = (message) =>
+  new Discord.MessageEmbed()
+    .setTitle(`Utils help commands:`)
+    .setURL('https://github.com/aikenahac/dotbot')
+    .setAuthor(
+      'Aiken Tine Ahac',
+      'https://avatars.githubusercontent.com/u/30961404?s=460&v=4',
+      'https://github.com/aikenahac/',
+    )
+    .setThumbnail(
+      'https://cdn.discordapp.com/avatars/785432195413049374/fcabae17c37bf92aa220d8ed254ad09b.webp',
+    )
+    .addField('Prefix:', 'Use the db! prefix for your commands')
+    .addFields(
+      { name: '\u200B', value: '\u200B' },
+      {
+        name: 'instagram',
+        value: 'Displays Instagram accoun info: `db!instagram [username]`',
+      },
+      {
+        name: 't2i',
+        value: 'Turns text after command into image: `db!t2i [text]`',
+      },
       { name: '\u200B', value: '\u200B' },
     )
     .addField(

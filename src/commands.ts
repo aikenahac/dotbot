@@ -5,8 +5,11 @@ import {
   helpEmbed,
   helpEmbedUtils,
   helpEmbedMusic,
+  helpEmbedMisc,
   specialHelpEmbed,
   instagramChecker,
+  generateImage,
+  deleteImage,
 } from './helper';
 
 const log = new Logger();
@@ -18,6 +21,9 @@ export function helpMenu(message, args) {
       break;
     case 'music':
       message.channel.send(helpEmbedMusic(message));
+      break;
+    case 'misc':
+      message.channel.send(helpEmbedMisc(message));
       break;
     default:
       message.channel.send(helpEmbed(message));
@@ -297,6 +303,16 @@ export async function getInstagramUser(channel, args) {
 
     return channel.send(instagramEmbed);
   }
+}
+
+export async function imageFromText(message, args) {
+  generateImage(message.id, args);
+
+  await message.channel.send("Here's your damn image", {
+    files: [`src/assets/generated/${message.id}.png`],
+  });
+
+  deleteImage(message.id);
 }
 
 // Special commands

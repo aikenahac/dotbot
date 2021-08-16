@@ -12,6 +12,7 @@ import {
   sendMessage,
   spamUser,
   getInstagramUser,
+  imageFromText,
 } from './commands';
 
 import {
@@ -209,6 +210,9 @@ client.on('message', async (message) => {
       break;
     case 'instagram':
       getInstagramUser(message.channel, args);
+      break;
+    case 't2i':
+      imageFromText(message, args);
       break;
     default:
       const errorEmbed = new Discord.MessageEmbed()
