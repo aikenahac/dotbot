@@ -306,7 +306,7 @@ export async function getInstagramUser(channel, args) {
 }
 
 export async function imageFromText(message, args) {
-  generateImage(message.id, args);
+  await generateImage(message.id, args);
 
   await message.channel.send("Here's your damn image", {
     files: [`src/assets/generated/${message.id}.png`],
