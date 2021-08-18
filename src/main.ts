@@ -4,14 +4,14 @@ import { Player } from 'discord-music-player';
 import { Logger } from 'tslog';
 import { specialUsers } from './config.json';
 import {
-  HelpMenu,
-  SpecialHelp,
-  ClearFunction,
-  KickUser,
-  BanUser,
-  SendMessage,
-  SpamUser,
-  GetInstagramUser,
+  helpMenu,
+  specialHelp,
+  clearFunction,
+  kickUser,
+  banUser,
+  sendMessage,
+  spamUser,
+  getInstagramUser,
 } from './commands';
 
 import {
@@ -130,25 +130,25 @@ client.on('message', async (message) => {
 
   switch (command) {
     case 'help':
-      HelpMenu(message, args);
+      helpMenu(message, args);
       break;
     case 'shelp':
-      SpecialHelp(message);
+      specialHelp(message);
       break;
     case 'clear':
-      ClearFunction(args, message);
+      clearFunction(args, message);
       break;
     case 'kick':
-      KickUser(message, args);
+      kickUser(message, args);
       break;
     case 'ban':
-      BanUser(message, args);
+      banUser(message, args);
       break;
     case 'say':
-      SendMessage(message, args, specialUsers);
+      sendMessage(message, args, specialUsers);
       break;
     case 'spam':
-      SpamUser(message, args, specialUsers);
+      spamUser(message, args, specialUsers);
       break;
     case 'play':
       await play(message, player, args);
@@ -208,7 +208,7 @@ client.on('message', async (message) => {
       progress(message, player);
       break;
     case 'instagram':
-      GetInstagramUser(message.channel, args);
+      getInstagramUser(message.channel, args);
       break;
     default:
       const errorEmbed = new Discord.MessageEmbed()

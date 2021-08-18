@@ -3,7 +3,7 @@ import { Logger } from 'tslog';
 
 const log = new Logger();
 
-export default function SendMessage(message, args, specialUsers) {
+export default function sendMessage(message, args, specialUsers) {
   const msgToSend = args.join(' ');
 
   if (args.length == 0) {
