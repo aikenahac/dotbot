@@ -4,15 +4,14 @@ import { Player } from 'discord-music-player';
 import { Logger } from 'tslog';
 import { specialUsers } from './config.json';
 import {
-  helpMenu,
-  specialHelp,
-  clearFunction,
-  kickUser,
-  banUser,
-  sendMessage,
-  spamUser,
-  getInstagramUser,
-  imageFromText,
+  HelpMenu,
+  SpecialHelp,
+  ClearFunction,
+  KickUser,
+  BanUser,
+  SendMessage,
+  SpamUser,
+  GetInstagramUser,
 } from './commands';
 
 import {
@@ -131,25 +130,25 @@ client.on('message', async (message) => {
 
   switch (command) {
     case 'help':
-      helpMenu(message, args);
+      HelpMenu(message, args);
       break;
     case 'shelp':
-      specialHelp(message);
+      SpecialHelp(message);
       break;
     case 'clear':
-      clearFunction(args, message);
+      ClearFunction(args, message);
       break;
     case 'kick':
-      kickUser(message, args);
+      KickUser(message, args);
       break;
     case 'ban':
-      banUser(message, args);
+      BanUser(message, args);
       break;
     case 'say':
-      sendMessage(message, args, specialUsers);
+      SendMessage(message, args, specialUsers);
       break;
     case 'spam':
-      spamUser(message, args, specialUsers);
+      SpamUser(message, args, specialUsers);
       break;
     case 'play':
       await play(message, player, args);
@@ -209,10 +208,7 @@ client.on('message', async (message) => {
       progress(message, player);
       break;
     case 'instagram':
-      getInstagramUser(message.channel, args);
-      break;
-    case 't2i':
-      imageFromText(message, args);
+      GetInstagramUser(message.channel, args);
       break;
     default:
       const errorEmbed = new Discord.MessageEmbed()
