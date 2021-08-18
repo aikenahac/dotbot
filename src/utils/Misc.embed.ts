@@ -19,10 +19,6 @@ export const HelpEmbedMisc = (message) =>
         name: 'instagram',
         value: 'Displays Instagram accoun info: `db!instagram [username]`',
       },
-      {
-        name: 't2i',
-        value: 'Turns text after command into image: `db!t2i [text]`',
-      },
       { name: '\u200B', value: '\u200B' },
     )
     .addField(
