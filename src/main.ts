@@ -124,7 +124,6 @@ client.on('message', async (message) => {
   if (
     message.channel.id === '761291813070831659' &&
     (message.content.includes('http:') ||
-      message.content.includes('https:') ||
       message.content.includes('paypal.com') ||
       message.content.includes('paypal.me'))
   ) {
