@@ -6,3 +6,4 @@ export { default as banUser } from './Ban';
 export { default as sendMessage } from './Send';
 export { default as spamUser } from './Spam';
 export { default as getInstagramUser } from './Instagram';
+export { default as coinFlip } from './Coinflip';

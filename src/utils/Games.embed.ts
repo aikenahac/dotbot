@@ -1,8 +1,8 @@
 import Discord from 'discord.js';
 
-export const HelpEmbed = (message) =>
+export const HelpEmbedGames = (message) =>
   new Discord.MessageEmbed()
-    .setTitle(`Help commands:`)
+    .setTitle(`Games help commands:`)
     .setURL('https://github.com/aikenahac/dotbot')
     .setAuthor(
       'Aiken Tine Ahac',
@@ -15,11 +15,15 @@ export const HelpEmbed = (message) =>
     .addField('Prefix:', 'Use the db! prefix for your commands')
     .addFields(
       { name: '\u200B', value: '\u200B' },
-      { name: 'Utils', value: 'Use db!help utils for more info.' },
-      { name: 'Music', value: 'Use db!help music for more info.' },
-      { name: 'Games', value: 'Use db!help games for more info.' },
-      { name: 'Miscellaneous', value: 'Use db!help misc for more info.' },
+      {
+        name: 'coinflip',
+        value: 'Flips a coint: `db!coinflip`',
+      },
       { name: '\u200B', value: '\u200B' },
+    )
+    .addField(
+      'Additional info',
+      'Arguments marked with * are optional\nCommands marked with ** require permissions',
     )
     .setFooter(`Requested by ${message.author.tag}`, message.author.avatarURL)
     .setTimestamp()

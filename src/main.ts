@@ -12,6 +12,7 @@ import {
   sendMessage,
   spamUser,
   getInstagramUser,
+  coinFlip,
 } from './commands';
 
 import {
@@ -217,6 +218,9 @@ client.on('message', async (message) => {
       break;
     case 'instagram':
       getInstagramUser(message.channel, args);
+      break;
+    case 'coinflip':
+      coinFlip(message);
       break;
     default:
       const errorEmbed = new Discord.MessageEmbed()
