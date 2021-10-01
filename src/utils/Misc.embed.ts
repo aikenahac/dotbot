@@ -23,6 +23,10 @@ export const HelpEmbedMisc = (message) =>
         name: 'meme',
         value: 'Sends a meme from reddit: `db!meme`',
       },
+      {
+        name: '||r34||',
+        value: '||Sends a rule34 image [NSFW]: db!r34||',
+      },
       { name: '\u200B', value: '\u200B' },
     )
     .addField(

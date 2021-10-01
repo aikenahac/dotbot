@@ -8,3 +8,4 @@ export { default as spamUser } from './Spam';
 export { default as getInstagramUser } from './Instagram';
 export { default as coinFlip } from './Coinflip';
 export { default as sendRedditMeme } from './Reddit';
+export { default as sendRule34 } from './Rule34';
