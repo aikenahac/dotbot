@@ -11,7 +11,6 @@ import {
   banUser,
   sendMessage,
   spamUser,
-  getInstagramUser,
   coinFlip,
   sendRedditMeme,
   sendRule34,
@@ -217,9 +216,6 @@ client.on('message', async (message) => {
       break;
     case 'progress':
       progress(message, player);
-      break;
-    case 'instagram':
-      getInstagramUser(message.channel, args);
       break;
     case 'coinflip':
       coinFlip(message);
