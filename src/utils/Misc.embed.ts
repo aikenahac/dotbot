@@ -19,6 +19,10 @@ export const HelpEmbedMisc = (message) =>
         name: 'instagram',
         value: 'Displays Instagram accoun info: `db!instagram [username]`',
       },
+      {
+        name: 'meme',
+        value: 'Sends a meme from reddit: `db!meme`',
+      },
       { name: '\u200B', value: '\u200B' },
     )
     .addField(

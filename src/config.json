@@ -8,5 +8,12 @@
     "329309152872759297",
     "691930634733748226",
     "522500185063161864"
+  ],
+  "subreddits": [
+    "https://www.reddit.com/r/dankmemes/hot/.json?limit=100",
+    "https://www.reddit.com/r/linuxmemes/hot/.json?limit=100",
+    "https://www.reddit.com/r/Animemes/hot/.json?limit=100",
+    "https://www.reddit.com/r/PrequelMemes/hot/.json?limit=100",
+    "https://www.reddit.com/r/SequelMemes/hot/.json?limit=100"
   ]
 }
