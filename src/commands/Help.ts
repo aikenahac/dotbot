@@ -3,6 +3,7 @@ import {
   HelpEmbedUtils,
   HelpEmbedMusic,
   HelpEmbedMisc,
+  HelpEmbedGames,
   SpecialHelpEmbed,
 } from '../utils';
 
@@ -16,6 +17,9 @@ export function HelpMenu(message, args) {
       break;
     case 'misc':
       message.channel.send(HelpEmbedMisc(message));
+      break;
+    case 'games':
+      message.channel.send(HelpEmbedGames(message));
       break;
     default:
       message.channel.send(HelpEmbed(message));
