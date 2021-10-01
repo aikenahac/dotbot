@@ -13,6 +13,7 @@ import {
   spamUser,
   getInstagramUser,
   coinFlip,
+  sendRedditMeme,
 } from './commands';
 
 import {
@@ -221,6 +222,9 @@ client.on('message', async (message) => {
       break;
     case 'coinflip':
       coinFlip(message);
+      break;
+    case 'meme':
+      sendRedditMeme(message);
       break;
     default:
       const errorEmbed = new Discord.MessageEmbed()
