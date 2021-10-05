@@ -60,7 +60,7 @@ client.on('ready', () => {
   log.info('Logged in as ' + client.user.tag);
   client.user
     .setActivity({
-      name: 'your problems',
+      name: 'db!help',
       type: 'LISTENING',
     })
     .then(() => log.info('Activity set!'));
