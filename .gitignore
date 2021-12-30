@@ -4,6 +4,7 @@ src/tweetMedia/
 
 # Private configs
 .env
+config.yml
 
 # IDE configs
 .vscode/
