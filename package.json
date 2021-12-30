@@ -1,11 +1,11 @@
 {
   "name": "dotbot",
-  "version": "1.0.0",
-  "description": "Just a random Discord bot. I made it spam my Twitter account lmao. Twitter: @aikenahac",
+  "version": "2.0.0",
+  "description": "Just a random Discord bot.",
   "main": "src/main.ts",
   "scripts": {
-    "start": "tsc && node build/main.js",
-    "dev": "nodemon -e ts  --exec \"npm run start\"",
+    "start": "npx ts-node src/deploy-commands.ts && npx ts-node src/main",
+    "dev": "nodemon -e ts  --exec \"npm start\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,21 +19,26 @@
   },
   "homepage": "https://github.com/Axodus/dotbot#readme",
   "dependencies": {
-    "@discordjs/opus": "^0.3.3",
+    "@discordjs/builders": "^0.11.0",
+    "@discordjs/opus": "^0.7.0",
+    "@discordjs/rest": "^0.2.0-canary.0",
     "cron": "^1.8.2",
-    "discord-music-player": "^7.1.4",
-    "discord.js": "^12.5.1",
-    "dotenv": "^8.2.0",
-    "ffmpeg": "0.0.4",
+    "discord-api-types": "^0.26.0",
+    "discord-music-player": "^8.3.1",
+    "discord.js": "^13.5.0",
+    "dotenv": "^10.0.0",
+    "ffmpeg": "^0.0.4",
     "fluent-ffmpeg": "^2.1.2",
-    "tsc": "^1.20150623.0",
-    "tslog": "^3.2.0",
-    "typescript": "^4.1.2",
-    "ytdl-core": "^4.4.5"
+    "fs": "^0.0.1-security",
+    "js-yaml": "^4.1.0",
+    "tslog": "^3.3.1",
+    "typescript": "^4.5.4",
+    "ytdl-core": "^4.9.2"
   },
   "devDependencies": {
-    "@types/node": "^14.14.10",
-    "nodemon": "^2.0.4",
-    "tsc": "^1.20150623.0"
+    "@types/node": "^17.0.5",
+    "nodemon": "^2.0.15",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.2"
   }
 }
