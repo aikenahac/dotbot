@@ -41,7 +41,7 @@ module.exports = {
 
       let ctr = 0;
       while (ctr < amount) {
-        interaction.channel.send(`<@${userSpammed}>`);
+        interaction.channel.send(`${userSpammed}`);
         ctr++;
       }
     } else {
