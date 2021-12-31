@@ -14,6 +14,7 @@ const conf: any = load(readFileSync('./config.yml', 'utf8'));
 const clientToken = process.env.TOKEN || '';
 
 const clientID = conf.clientID || '';
+const guildID = conf.guildID || '';
 
 const log = new Logger();
 
@@ -28,8 +29,11 @@ commandFiles.forEach((file: string) => {
 
 const rest = new REST({ version: '9' }).setToken(clientToken);
 
+// This is for deploying commands on the development server
+// To deploy commands globally call this instead:
+// Routes.applicationCommands(clientID)
 rest
-  .put(Routes.applicationGuildCommands(clientID, '802230233456705566'), {
+  .put(Routes.applicationGuildCommands(clientID, guildID), {
     body: commands,
   })
   .then(() => log.info('Successfully registered application commands.'))
