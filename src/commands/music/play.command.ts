@@ -7,7 +7,7 @@ module.exports = {
     .setName('play')
     .setDescription('Plays a song.')
     .addStringOption((option) =>
-      option.setName('song').setDescription('Which song?'),
+      option.setName('song').setDescription('YouTube URL or search query.'),
     ),
   async execute(interaction: Interaction) {
     if (!interaction.isCommand()) return;

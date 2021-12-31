@@ -5,3 +5,4 @@ export { default as sendMuteAction } from './mute.embed';
 export { sendResult } from './coinflip.embed';
 export { default as sendImageResult } from './meme.embed';
 export { default as sendRandom } from './random.embed';
+export { default as Help } from './help.embeds';
