@@ -240,8 +240,6 @@ export default class MusicPlayer {
 
     const guildQueue: Queue = client.player.getQueue(interaction.guildId);
 
-    console.log(guildQueue);
-
     const embed = new MessageEmbed()
       .setColor(conf.embedColor)
       .setDescription(`Queue:`)
