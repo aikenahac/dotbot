@@ -1,5 +1,6 @@
 clientID: ''
 guildID: ''
+muteRole: ''
 
 embedColor: '#FF5D96'
 
