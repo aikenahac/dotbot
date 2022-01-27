@@ -4,9 +4,10 @@
   "description": "Just a random Discord bot.",
   "main": "src/main.ts",
   "scripts": {
-    "start": "npx ts-node src/deploy-commands.ts && npx ts-node src/main",
-    "dev": "nodemon -e ts  --exec \"npm start\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "ts-node src/main",
+    "commands": "ts-node src/deploy-commands.ts",
+    "deploy": "ts-node src/deploy-commands.ts && ts-node src/main",
+    "dev": "nodemon -e ts --exec \"npm run deploy\""
   },
   "repository": {
     "type": "git",
