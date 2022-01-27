@@ -5,9 +5,11 @@
   "main": "src/main.ts",
   "scripts": {
     "start": "ts-node src/main",
-    "commands": "ts-node src/deploy-commands.ts",
     "deploy": "ts-node src/deploy-commands.ts && ts-node src/main",
-    "dev": "nodemon -e ts --exec \"npm run deploy\""
+    "dev-commands": "ts-node src/dev-commands.ts",
+    "commands": "ts-node src/deploy-commands.ts",
+    "dev": "nodemon -e ts  --exec \"npm start\""
+    
   },
   "repository": {
     "type": "git",

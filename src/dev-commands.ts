@@ -14,6 +14,7 @@ const conf: any = load(readFileSync('./config.yml', 'utf8'));
 const clientToken = process.env.TOKEN || '';
 
 const clientID = conf.clientID || '';
+const guildID = conf.guildID || '';
 
 const log = new Logger();
 
@@ -29,7 +30,7 @@ commandFiles.forEach((file: string) => {
 const rest = new REST({ version: '9' }).setToken(clientToken);
 
 rest
-  .put(Routes.applicationCommands(clientID), {
+  .put(Routes.applicationGuildCommands(clientID, guildID), {
     body: commands,
   })
   .then(() => log.info('Successfully registered application commands.'))

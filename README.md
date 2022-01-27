@@ -104,11 +104,21 @@ subreddits:
 
 Since discord.js v13 you have to deploy the commands of your bot.
 
-While you're developing you're going to want to deploy the commands to your dev server instantly, so that is the default configuration for the `src/deploy-commands.ts` file.
+While you're developing you're going to want to deploy the commands to your dev server instantly, so that is the default configuration for the `src/dev-commands.ts` file.
+
+You can deploy dev commands using:
+
+```bash
+npm run dev-commands
+```
 
 When deploying your bot into production, you'll want to deploy the commands globally for all servers.
 
-To do that open `src/deploy-commands.ts` and at the bottom of the file you'll find the instructions.
+To do that run `src/deploy-commands.ts` with the following command:
+
+```bash
+npm run commands
+```
 
 #### Step 6: Deploy the bot
 
