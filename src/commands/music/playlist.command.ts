@@ -7,7 +7,10 @@ module.exports = {
     .setName('playlist')
     .setDescription('Plays a playlist.')
     .addStringOption((option) =>
-      option.setName('playlist').setDescription('YouTube playlist URL.'),
+      option
+        .setName('playlist')
+        .setDescription('YouTube playlist URL.')
+        .setRequired(true),
     ),
   async execute(interaction: Interaction) {
     if (!interaction.isCommand()) return;

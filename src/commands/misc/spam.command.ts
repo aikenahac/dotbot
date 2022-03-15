@@ -12,7 +12,10 @@ module.exports = {
     .setName('spam')
     .setDescription('Spams a user with pings...')
     .addUserOption((option) =>
-      option.setName('user').setDescription('Who do you want to spam?'),
+      option
+        .setName('user')
+        .setDescription('Who do you want to spam?')
+        .setRequired(true),
     )
     .addNumberOption((option) =>
       option

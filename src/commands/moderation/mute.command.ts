@@ -14,7 +14,10 @@ module.exports = {
     .setName('mute')
     .setDescription('Mutes a person.')
     .addUserOption((option) =>
-      option.setName('user').setDescription('The user to mute.'),
+      option
+        .setName('user')
+        .setDescription('The user to mute.')
+        .setRequired(true),
     )
     .addStringOption((option) =>
       option.setName('reason').setDescription('The reason for the mute.'),

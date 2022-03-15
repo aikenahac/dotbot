@@ -7,7 +7,7 @@ module.exports = {
     .setName('kick')
     .setDescription('Kick a user from the server.')
     .addUserOption((option) =>
-      option.setName('target').setDescription('Kick target.'),
+      option.setName('target').setDescription('Kick target.').setRequired(true),
     )
     .addStringOption((option) =>
       option.setName('reason').setDescription('Reason for the kick.'),

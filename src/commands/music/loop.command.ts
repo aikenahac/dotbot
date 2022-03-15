@@ -15,7 +15,8 @@ module.exports = {
         .setDescription('What to do.')
         .addChoice('Loop current song', 'song')
         .addChoice('Loop entire queue', 'queue')
-        .addChoice('Stop loop', 'stop'),
+        .addChoice('Stop loop', 'stop')
+        .setRequired(true),
     ),
   async execute(interaction: Interaction) {
     if (!interaction.isCommand()) return;

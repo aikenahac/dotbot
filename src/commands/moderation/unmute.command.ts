@@ -14,7 +14,10 @@ module.exports = {
     .setName('unmute')
     .setDescription('Unmutes a person.')
     .addUserOption((option) =>
-      option.setName('user').setDescription('The user to unmute.'),
+      option
+        .setName('user')
+        .setDescription('The user to unmute.')
+        .setRequired(true),
     ),
   async execute(interaction: Interaction) {
     if (!interaction.isCommand()) return;

@@ -12,7 +12,10 @@ module.exports = {
     .setName('send')
     .setDescription("Sends messages. That's it...")
     .addStringOption((option) =>
-      option.setName('content').setDescription('What do you want me to say?'),
+      option
+        .setName('content')
+        .setDescription('What do you want me to say?')
+        .setRequired(true),
     ),
   async execute(interaction: Interaction) {
     if (!interaction.isCommand()) return;
