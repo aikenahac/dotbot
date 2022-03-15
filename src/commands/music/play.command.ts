@@ -1,6 +1,9 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { Interaction } from 'discord.js';
 import { MusicPlayer } from '../../utils';
+import { Logger } from 'tslog';
+
+const log = new Logger();
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -16,6 +19,8 @@ module.exports = {
     if (!interaction.isCommand()) return;
 
     const track: string = await interaction.options.getString('song');
+
+    log.info('Searching for the track: ' + track);
 
     await MusicPlayer.play(interaction, track);
   },
