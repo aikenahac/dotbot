@@ -20,8 +20,6 @@ module.exports = {
 
     const track: string = await interaction.options.getString('song');
 
-    log.info('Searching for the track: ' + track);
-
     await MusicPlayer.play(interaction, track);
   },
 };

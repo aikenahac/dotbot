@@ -9,7 +9,6 @@
     "dev-commands": "ts-node src/dev-commands.ts",
     "commands": "ts-node src/deploy-commands.ts",
     "dev": "nodemon -e ts  --exec \"npm start\""
-    
   },
   "repository": {
     "type": "git",
@@ -36,7 +35,7 @@
     "js-yaml": "^4.1.0",
     "tslog": "^3.3.1",
     "typescript": "^4.5.4",
-    "ytdl-core": "^4.9.2"
+    "ytdl-core": "^4.11.0"
   },
   "devDependencies": {
     "@types/node": "^17.0.5",
