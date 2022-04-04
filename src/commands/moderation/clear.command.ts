@@ -18,7 +18,7 @@ module.exports = {
     if (!interaction.isCommand()) return;
     if (interaction.channel!.type != 'GUILD_TEXT') return;
 
-    const count: number = await interaction.options.getNumber('count');
+    const count: number = await interaction.options.getNumber('count') || 5;
 
     const member: GuildMember = await interaction.guild.members.fetch(
       interaction.user.id,
