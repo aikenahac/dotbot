@@ -110,7 +110,9 @@ client.on(
       permaroledUsers.forEach((userID: string) => {
         if (
           oldMember.roles.cache.has(conf.permarole) &&
-          !newMember.roles.cache.has(conf.permarole)
+          !newMember.roles.cache.has(conf.permarole) &&
+          newMember.user.id === userID &&
+          oldMember.user.id === userID
         ) {
           newMember.roles.add(conf.permarole);
 
