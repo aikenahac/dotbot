@@ -7,3 +7,10 @@ embedColor: '#FF5D96'
 specialUsers: ['', '']
 
 subreddits: ['', '']
+
+# Personal server, remove this if you don't want it
+# Automatically assigns a user specific roles when removed
+permaroleServerID: ''
+permarole: ''
+permaroledUsers: ['']
+permaroleWarningChannel: ''

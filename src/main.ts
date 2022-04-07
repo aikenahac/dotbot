@@ -1,8 +1,20 @@
-import { Client, Collection, Intents, Interaction, Message } from 'discord.js';
+import {
+  Client,
+  Collection,
+  Intents,
+  Interaction,
+  Message,
+  GuildMember,
+  Channel,
+} from 'discord.js';
 import dotenv from 'dotenv';
 import { Player } from 'discord-music-player';
 import { Logger } from 'tslog';
 import { readdirSyncRecursive } from './utils';
+import { load } from 'js-yaml';
+import { readFileSync } from 'fs';
+
+const conf: any = load(readFileSync('./config.yml', 'utf8'));
 
 dotenv.config();
 
@@ -88,5 +100,29 @@ client.on('interactionCreate', async (interaction: Interaction) => {
     });
   }
 });
+
+client.on(
+  'guildMemberUpdate',
+  async (oldMember: GuildMember, newMember: GuildMember) => {
+    const permaroledUsers = conf.permaroledUsers;
+
+    if (newMember.guild.id === conf.permaroleServerID) {
+      permaroledUsers.forEach((userID: string) => {
+        if (
+          oldMember.roles.cache.has(conf.permarole) &&
+          !newMember.roles.cache.has(conf.permarole)
+        ) {
+          newMember.roles.add(conf.permarole);
+
+          let channel = client.channels.cache.get(conf.permaroleWarningChannel);
+
+          channel.send(
+            `<@${userID}> ne bo ostal brez rola. <@&${conf.permarole}> bo imel za vedno`,
+          );
+        }
+      });
+    }
+  },
+);
 
 client.login(token);
