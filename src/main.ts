@@ -101,6 +101,12 @@ client.on('interactionCreate', async (interaction: Interaction) => {
   }
 });
 
+client.on('guildMemberAdd', async (member: GuildMember) => {
+  if (member.guild.id === '970420527049109514') {
+    member.roles.add('970420628240887878');
+  }
+});
+
 client.on(
   'guildMemberUpdate',
   async (oldMember: GuildMember, newMember: GuildMember) => {
