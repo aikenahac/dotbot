@@ -22,27 +22,21 @@ export default class MusicPlayer {
 
     await queue.join(member.voice.channel);
 
-    if (track === null)
-      return interaction.reply({
-        content: "You don't know how to use slash commands, do you?",
-        ephemeral: true,
-      });
-
-    await interaction.reply('Adding track to queue...');
-
     const song: Song | any = await queue.play(track).catch((e: any) => {
       log.error(e);
       if (!guildQueue) queue.stop();
     });
 
+    log.info(song);
+
     const embed = new MessageEmbed()
       .setColor(conf.embedColor)
-      .setTitle(`${song.name}`)
+      .setTitle(`${song.title}`)
       .setDescription(`by ${song.author}`)
       .setThumbnail(song.thumbnail)
       .setTimestamp();
 
-    interaction.editReply({
+    interaction.reply({
       embeds: [embed],
     });
   }

@@ -66,6 +66,12 @@ client.on('ready', () => {
   });
 });
 
+client.on('guildMemberAdd', async (member: GuildMember) => {
+  if (member.guild.id === '990929676077768704') {
+    member.roles.add('990936077189672970');
+  }
+});
+
 client.on('messageCreate', async (message: Message) => {
   if (message.author.bot) return;
 
@@ -100,37 +106,5 @@ client.on('interactionCreate', async (interaction: Interaction) => {
     });
   }
 });
-
-client.on('guildMemberAdd', async (member: GuildMember) => {
-  if (member.guild.id === '970420527049109514') {
-    member.roles.add('970420628240887878');
-  }
-});
-
-client.on(
-  'guildMemberUpdate',
-  async (oldMember: GuildMember, newMember: GuildMember) => {
-    const permaroledUsers = conf.permaroledUsers;
-
-    if (newMember.guild.id === conf.permaroleServerID) {
-      permaroledUsers.forEach((userID: string) => {
-        if (
-          oldMember.roles.cache.has(conf.permarole) &&
-          !newMember.roles.cache.has(conf.permarole) &&
-          newMember.user.id === userID &&
-          oldMember.user.id === userID
-        ) {
-          newMember.roles.add(conf.permarole);
-
-          let channel = client.channels.cache.get(conf.permaroleWarningChannel);
-
-          channel.send(
-            `<@${userID}> ne bo ostal brez rola. <@&${conf.permarole}> bo imel za vedno`,
-          );
-        }
-      });
-    }
-  },
-);
 
 client.login(token);
