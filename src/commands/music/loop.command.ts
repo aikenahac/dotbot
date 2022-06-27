@@ -13,9 +13,11 @@ module.exports = {
       option
         .setName('action')
         .setDescription('What to do.')
-        .addChoice('Loop current song', 'song')
-        .addChoice('Loop entire queue', 'queue')
-        .addChoice('Stop loop', 'stop')
+        .addChoices(
+          { name: 'Loop current song', value: 'song' },
+          { name: 'Loop entire queue', value: 'queue' },
+          { name: 'Stop loop', value: 'stop' },
+        )
         .setRequired(true),
     ),
   async execute(interaction: Interaction) {

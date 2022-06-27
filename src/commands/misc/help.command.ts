@@ -13,10 +13,12 @@ module.exports = {
       option
         .setName('selection')
         .setDescription('Which help do you want do display?')
-        .addChoice('Help for misc commands', 'misc')
-        .addChoice('Help for music commands', 'music')
-        .addChoice('Help for moderation commands', 'moderation')
-        .addChoice('Help for special commands', 'special'),
+        .addChoices(
+          { name: 'Help for misc commands', value: 'misc' },
+          { name: 'Help for music commands', value: 'music' },
+          { name: 'Help for moderation commands', value: 'moderation' },
+          { name: 'Help for special commands', value: 'special' },
+        ),
     ),
   async execute(interaction: Interaction) {
     if (!interaction.isCommand()) return;
