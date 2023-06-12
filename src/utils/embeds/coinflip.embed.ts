@@ -1,4 +1,4 @@
-import { MessageEmbed } from 'discord.js';
+import { EmbedBuilder } from 'discord.js';
 import { load } from 'js-yaml';
 import { readFileSync } from 'fs';
 
@@ -14,7 +14,7 @@ export function sendResult(result: number) {
     default:
       text = 'tails';
   }
-  const headsEmbed = new MessageEmbed()
+  const headsEmbed = new EmbedBuilder()
     .setColor(conf.embedColor)
     .setDescription(`You flipped ${text}!`)
     .setTimestamp();

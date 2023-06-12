@@ -29,32 +29,42 @@ module.exports = {
 
       result
         .on('end', async () => {
-          const response = await JSON.parse(body);
-          const index =
-            response.data.children[Math.floor(Math.random() * 99) + 1].data;
+          try {
+            const response = await JSON.parse(body);
+            const index =
+              response.data.children[Math.floor(Math.random() * 99) + 1].data;
 
-          const title = index.title;
-          const link = 'https://reddit.com' + index.permalink;
-          const subRedditName = index.subreddit_name_prefixed;
+            const title = index.title;
+            const link = 'https://reddit.com' + index.permalink;
+            const subRedditName = index.subreddit_name_prefixed;
 
-          if (index.preview === undefined)
-            return interaction.reply({
-              content: 'There is no meme.',
+            if (index.preview === undefined)
+              return interaction.reply({
+                content: 'There is no meme.',
+                ephemeral: true,
+              });
+
+            const image = index.preview.images[0].source.url.replace(
+              '&amp;',
+              '&',
+            );
+
+            console.log(image);
+            await interaction.reply({
+              embeds: [sendImageResult(subRedditName, title, link, image)],
+            });
+          } catch (e) {
+            await interaction.reply({
+              content: 'There was an error!',
               ephemeral: true,
             });
-
-          const image = index.preview.images[0].source.url.replace(
-            '&amp;',
-            '&',
-          );
-
-          console.log(image);
-          await interaction.reply({
-            embeds: [sendImageResult(subRedditName, title, link, image)],
-          });
+          }
         })
-        .on('error', function (e) {
-          console.log('Got an error: ', e);
+        .on('error', async (e) => {
+          await interaction.reply({
+            content: 'There was an error!',
+            ephemeral: true,
+          });
         });
     });
   },

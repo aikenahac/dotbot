@@ -1,4 +1,4 @@
-import { MessageEmbed } from 'discord.js';
+import { EmbedBuilder } from 'discord.js';
 import { load } from 'js-yaml';
 import { readFileSync } from 'fs';
 
@@ -32,7 +32,7 @@ function sendActionEmbed(
       break;
   }
 
-  const actionEmbed = new MessageEmbed()
+  const actionEmbed = new EmbedBuilder()
     .setColor(conf.embedColor)
     .addFields(
       { name: field1, value: `<@${member}>`, inline: false },

@@ -21,26 +21,27 @@
   },
   "homepage": "https://github.com/Axodus/dotbot#readme",
   "dependencies": {
-    "@discordjs/builders": "^0.15.0",
-    "@discordjs/opus": "^0.7.0",
-    "@discordjs/rest": "^0.5.0",
-    "cron": "^2.0.0",
-    "discord-api-types": "^0.34.0",
-    "discord-music-player": "^8.3.2",
-    "discord.js": "^13.8.0",
-    "dotenv": "^16.0.1",
+    "@discordjs/builders": "^1.6.3",
+    "@discordjs/opus": "^0.9.0",
+    "@discordjs/rest": "^1.7.1",
+    "cron": "^2.3.1",
+    "discord-api-types": "^0.37.43",
+    "discord-music-player": "^9.1.1",
+    "discord.js": "^14.11.0",
+    "dotenv": "^16.1.4",
     "ffmpeg": "^0.0.4",
     "fluent-ffmpeg": "^2.1.2",
     "fs": "^0.0.1-security",
+    "isomorphic-unfetch": "^4.0.2",
     "js-yaml": "^4.1.0",
-    "tslog": "^3.3.3",
-    "typescript": "^4.5.4",
-    "ytdl-core": "^4.11.0"
+    "tslog": "^4.8.2",
+    "typescript": "^5.1.3",
+    "ytdl-core": "^4.11.4"
   },
   "devDependencies": {
-    "@types/node": "^18.0.0",
-    "nodemon": "^2.0.16",
-    "ts-node": "^10.8.1",
+    "@types/node": "^20.3.0",
+    "nodemon": "^2.0.22",
+    "ts-node": "^10.9.1",
     "typescript": "^4.7.3"
   }
 }

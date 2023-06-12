@@ -1,4 +1,4 @@
-import { MessageEmbed } from 'discord.js';
+import { EmbedBuilder } from 'discord.js';
 import { load } from 'js-yaml';
 import { readFileSync } from 'fs';
 
@@ -6,7 +6,7 @@ const conf: any = load(readFileSync('./config.yml', 'utf8'));
 
 export default class Help {
   static miscHelpEmbed() {
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setTitle(`Misc help commands:`)
       .setURL('https://github.com/aikenahac/dotbot')
       .setThumbnail(
@@ -14,14 +14,10 @@ export default class Help {
       )
       .addFields(
         { name: '\u200B', value: '\u200B' },
-        {
-          name: 'meme',
-          value: 'Sends a meme from reddit',
-        },
-        {
-          name: '||r34||',
-          value: '||Sends a rule34 image [NSFW]||',
-        },
+        { name: 'meme', value: 'Sends a meme from reddit' },
+        { name: 'conflip', value: 'Tosses a coin' },
+        { name: 'random', value: 'Returns a random number' },
+        { name: '||r34||', value: '||Sends a rule34 image [NSFW]||' },
         { name: '\u200B', value: '\u200B' },
       )
       .setTimestamp()
@@ -31,7 +27,7 @@ export default class Help {
   }
 
   static musicHelpEmbed() {
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setTitle(`Music help commands:`)
       .setURL('https://github.com/aikenahac/dotbot')
       .setThumbnail(
@@ -71,7 +67,7 @@ export default class Help {
   }
 
   static moderationHelpEmbed() {
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setTitle(`Moderation help commands:`)
       .setURL('https://github.com/aikenahac/dotbot')
       .setThumbnail(
@@ -107,7 +103,7 @@ export default class Help {
   }
 
   static specialHelpEmbed() {
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setTitle(`Special help commands:`)
       .setURL('https://github.com/aikenahac/dotbot')
       .setThumbnail(

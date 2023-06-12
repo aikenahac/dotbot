@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { load } from 'js-yaml';
 import { readFileSync } from 'fs';
-import { Interaction, MessageEmbed } from 'discord.js';
+import { Interaction, EmbedBuilder } from 'discord.js';
 
 const conf: any = load(readFileSync('./config.yml', 'utf8'));
 
@@ -20,7 +20,8 @@ module.exports = {
   async execute(interaction: Interaction) {
     if (!interaction.isCommand()) return;
 
-    const content: string = await interaction.options.getString('content');
+    const content: string = (await interaction.options.get('content')
+      .value) as string;
 
     let validUser;
     for (let i = 0; i < specialUsers.length; i++) {
@@ -37,13 +38,13 @@ module.exports = {
       });
       return interaction.channel.send(content);
     } else {
-      const errorEmbed = new MessageEmbed()
+      const errorEmbed = new EmbedBuilder()
         .setTitle('Error:')
-        .addField(
-          'Missing perms:',
-          `Nisi tok kul! You can't control me!!!`,
-          false,
-        )
+        .addFields({
+          name: 'Missing perms:',
+          value: `Nisi tok kul! You can't control me!!!`,
+          inline: false,
+        })
         .setColor('#DD1627');
       return interaction.reply({
         embeds: [errorEmbed],

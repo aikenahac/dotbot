@@ -1,11 +1,11 @@
 import {
   Client,
   Collection,
-  Intents,
+  GatewayIntentBits,
   Interaction,
   Message,
   GuildMember,
-  Channel,
+  ChannelType,
 } from 'discord.js';
 import dotenv from 'dotenv';
 import { Player } from 'discord-music-player';
@@ -20,17 +20,16 @@ dotenv.config();
 
 export const client: any = new Client({
   intents: [
-    Intents.FLAGS.GUILDS,
-    Intents.FLAGS.GUILD_MESSAGES,
-    Intents.FLAGS.GUILD_MEMBERS,
-    Intents.FLAGS.GUILD_BANS,
-    Intents.FLAGS.GUILD_INTEGRATIONS,
-    Intents.FLAGS.GUILD_WEBHOOKS,
-    Intents.FLAGS.GUILD_INVITES,
-    Intents.FLAGS.GUILD_VOICE_STATES,
-    Intents.FLAGS.GUILD_PRESENCES,
-    Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-    Intents.FLAGS.GUILD_MESSAGE_TYPING,
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildModeration,
+    GatewayIntentBits.GuildIntegrations,
+    GatewayIntentBits.GuildWebhooks,
+    GatewayIntentBits.GuildVoiceStates,
+    GatewayIntentBits.GuildPresences,
+    GatewayIntentBits.GuildMessageReactions,
+    GatewayIntentBits.GuildMessageTyping,
   ],
 });
 
@@ -82,7 +81,7 @@ client.on('messageCreate', async (message: Message) => {
 
 client.on('interactionCreate', async (interaction: Interaction) => {
   if (!interaction.isCommand()) return;
-  if (interaction.channel!.type != 'GUILD_TEXT') return;
+  if (interaction.channel!.type != ChannelType.GuildText) return;
 
   const command = client.commands.get(interaction.commandName);
 

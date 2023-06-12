@@ -1,11 +1,11 @@
-import { MessageEmbed } from 'discord.js';
+import { EmbedBuilder } from 'discord.js';
 import { load } from 'js-yaml';
 import { readFileSync } from 'fs';
 
 const conf: any = load(readFileSync('./config.yml', 'utf8'));
 
 function sendInfoEmbed(member: any) {
-  const warningEmbed = new MessageEmbed()
+  const warningEmbed = new EmbedBuilder()
     .setColor(conf.embedColor)
     .setTitle(`${member.nickname || member.user.username}`)
     .setThumbnail(`${member.user.avatarURL()}`)

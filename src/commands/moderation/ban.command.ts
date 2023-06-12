@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { GuildMember, Interaction } from 'discord.js';
+import { GuildMember, Interaction, PermissionsBitField } from 'discord.js';
 import { sendActionEmbed } from '../../utils/embeds';
 
 module.exports = {
@@ -16,13 +16,14 @@ module.exports = {
     if (!interaction.isCommand()) return;
 
     const target = await interaction.options.getUser('target');
-    const reason: string = await interaction.options.getString('reason');
+    const reason: string = (await interaction.options.get('reason')
+      .value) as string;
 
     const member: GuildMember = await interaction.guild.members.fetch(
       interaction.user.id,
     );
 
-    if (member.permissions.has('BAN_MEMBERS', true)) {
+    if (member.permissions.has(PermissionsBitField.Flags.BanMembers, true)) {
       await interaction.guild.members.ban(target, { reason });
 
       interaction.reply({

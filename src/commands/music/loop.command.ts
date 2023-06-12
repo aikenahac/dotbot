@@ -23,7 +23,8 @@ module.exports = {
   async execute(interaction: Interaction) {
     if (!interaction.isCommand()) return;
 
-    const action: string = await interaction.options.getString('action');
+    const action: string = (await interaction.options.get('action')
+      .value) as string;
 
     switch (action) {
       case 'song':

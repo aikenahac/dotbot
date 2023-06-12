@@ -1,5 +1,5 @@
 import { Queue, RepeatMode, Song } from 'discord-music-player';
-import { GuildMember, Interaction, MessageEmbed } from 'discord.js';
+import { GuildMember, Interaction, EmbedBuilder } from 'discord.js';
 import { load } from 'js-yaml';
 import { readFileSync } from 'fs';
 import { client } from '../main';
@@ -29,7 +29,7 @@ export default class MusicPlayer {
 
     log.info(song);
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setColor(conf.embedColor)
       .setTitle(`${song.title}`)
       .setDescription(`by ${song.author}`)
@@ -65,7 +65,7 @@ export default class MusicPlayer {
       if (!guildQueue) queue.stop();
     });
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setColor(conf.embedColor)
       .setTitle(`${pl.name}`)
       .setDescription(`by ${pl.author}`)
@@ -83,7 +83,7 @@ export default class MusicPlayer {
 
     await guildQueue.setPaused(true);
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setColor(conf.embedColor)
       .setDescription(`Paused playback.`)
       .setTimestamp();
@@ -100,7 +100,7 @@ export default class MusicPlayer {
 
     await guildQueue.setPaused(false);
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setColor(conf.embedColor)
       .setDescription(`Resumed playback.`)
       .setTimestamp();
@@ -117,7 +117,7 @@ export default class MusicPlayer {
 
     await guildQueue.skip();
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setColor(conf.embedColor)
       .setDescription(`Skipped this track.`)
       .setTimestamp();
@@ -134,7 +134,7 @@ export default class MusicPlayer {
 
     await guildQueue.stop();
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setColor(conf.embedColor)
       .setDescription(`Stopped.`)
       .setTimestamp();
@@ -151,7 +151,7 @@ export default class MusicPlayer {
 
     await guildQueue.setRepeatMode(RepeatMode.DISABLED);
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setColor(conf.embedColor)
       .setDescription(`Removing the loop.`)
       .setTimestamp();
@@ -168,7 +168,7 @@ export default class MusicPlayer {
 
     await guildQueue.setRepeatMode(RepeatMode.SONG);
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setColor(conf.embedColor)
       .setDescription(`Looping the song.`)
       .setTimestamp();
@@ -185,7 +185,7 @@ export default class MusicPlayer {
 
     await guildQueue.setRepeatMode(RepeatMode.QUEUE);
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setColor(conf.embedColor)
       .setDescription(`Looping the queue.`)
       .setTimestamp();
@@ -202,7 +202,7 @@ export default class MusicPlayer {
 
     await guildQueue.clearQueue();
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setColor(conf.embedColor)
       .setDescription(`Cleared the queue.`)
       .setTimestamp();
@@ -219,7 +219,7 @@ export default class MusicPlayer {
 
     await guildQueue.shuffle();
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setColor(conf.embedColor)
       .setDescription(`Shuffled the queue.`)
       .setTimestamp();
@@ -234,13 +234,13 @@ export default class MusicPlayer {
 
     const guildQueue: Queue = client.player.getQueue(interaction.guildId);
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setColor(conf.embedColor)
       .setDescription(`Queue:`)
       .setTimestamp();
 
     guildQueue.songs.forEach((song: Song) => {
-      embed.addField(song.name, `by ${song.author}`);
+      embed.addFields({ name: song.name, value: `by ${song.author}` });
     });
 
     interaction.reply({
@@ -254,7 +254,7 @@ export default class MusicPlayer {
     const guildQueue: Queue = client.player.getQueue(interaction.guildId);
     const song: Song = guildQueue.nowPlaying;
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setColor(conf.embedColor)
       .setTitle(`Now playing: ${song.name}`)
       .setDescription(`by ${song.author}`)

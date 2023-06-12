@@ -1,7 +1,4 @@
-import {
-  SlashCommandBuilder,
-  SlashCommandStringOption,
-} from '@discordjs/builders';
+import { SlashCommandBuilder } from '@discordjs/builders';
 import { Interaction } from 'discord.js';
 import { Help } from '../../utils/embeds';
 
@@ -9,7 +6,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('help')
     .setDescription('Shows help.')
-    .addStringOption((option: SlashCommandStringOption) =>
+    .addStringOption((option) =>
       option
         .setName('selection')
         .setDescription('Which help do you want do display?')
@@ -23,7 +20,10 @@ module.exports = {
   async execute(interaction: Interaction) {
     if (!interaction.isCommand()) return;
 
-    const selection: string = await interaction.options.getString('selection');
+    const selection: string = interaction.options.get('selection')
+      .value as string;
+
+    console.log(selection);
 
     switch (selection) {
       case 'misc':

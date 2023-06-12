@@ -3,7 +3,7 @@ import { sendMuteAction } from '../../utils/embeds';
 import { load } from 'js-yaml';
 import { readFileSync } from 'fs';
 import { Logger } from 'tslog';
-import { Interaction } from 'discord.js';
+import { Interaction, PermissionsBitField } from 'discord.js';
 
 const log = new Logger();
 
@@ -31,7 +31,7 @@ module.exports = {
       (r: any) => r.id === `${conf.muteRole}`,
     );
 
-    if (member.permissions.has('ADMINISTRATOR')) {
+    if (member.permissions.has(PermissionsBitField.Flags.Administrator)) {
       muted.roles
         .remove(role)
         .then(() => {

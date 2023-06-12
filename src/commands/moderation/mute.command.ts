@@ -3,7 +3,7 @@ import { sendMuteAction } from '../../utils/embeds';
 import { load } from 'js-yaml';
 import { readFileSync } from 'fs';
 import { Logger } from 'tslog';
-import { Interaction } from 'discord.js';
+import { Interaction, PermissionsBitField } from 'discord.js';
 
 const log = new Logger();
 
@@ -25,8 +25,8 @@ module.exports = {
   async execute(interaction: Interaction) {
     if (!interaction.isCommand()) return;
 
-    const user = await interaction.options.getUser('user');
-    const reason: string = await interaction.options.getString('reason');
+    const user = interaction.options.getUser('user');
+    const reason: string = interaction.options.get('reason').value as string;
 
     const member = await interaction.guild.members.fetch(interaction.user.id);
     const muted = await interaction.guild.members.fetch(user.id);
@@ -35,7 +35,7 @@ module.exports = {
       (r: any) => r.id === `${conf.muteRole}`,
     );
 
-    if (member.permissions.has('ADMINISTRATOR')) {
+    if (member.permissions.has(PermissionsBitField.Flags.Administrator)) {
       muted.roles
         .add(role)
         .then(async () => {

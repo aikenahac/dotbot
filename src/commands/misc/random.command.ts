@@ -15,8 +15,10 @@ module.exports = {
   async execute(interaction: Interaction) {
     if (!interaction.isCommand()) return;
 
-    let min: number = (await interaction.options.getNumber('min')) || 0;
-    let max: number = (await interaction.options.getNumber('max')) || 100;
+    let min: number =
+      ((await interaction.options.get('min')).value as number) || 0;
+    let max: number =
+      ((await interaction.options.get('max')).value as number) || 100;
 
     min = Math.ceil(min);
     max = Math.floor(max);

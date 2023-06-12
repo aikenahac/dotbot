@@ -1,11 +1,11 @@
-import { MessageEmbed } from 'discord.js';
+import { EmbedBuilder } from 'discord.js';
 import { load } from 'js-yaml';
 import { readFileSync } from 'fs';
 
 const conf: any = load(readFileSync('./config.yml', 'utf8'));
 
 function sendRandom(num: number) {
-  const numberEmbed = new MessageEmbed()
+  const numberEmbed = new EmbedBuilder()
     .setColor(conf.embedColor)
     .setDescription(`You got: ${num}`)
     .setTimestamp();

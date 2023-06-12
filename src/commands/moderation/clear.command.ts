@@ -1,7 +1,12 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { sendClearEmbed } from '../../utils/embeds';
 import { Logger } from 'tslog';
-import { GuildMember, Interaction } from 'discord.js';
+import {
+  ChannelType,
+  GuildMember,
+  Interaction,
+  PermissionsBitField,
+} from 'discord.js';
 
 const log = new Logger();
 
@@ -16,15 +21,16 @@ module.exports = {
     ),
   async execute(interaction: Interaction) {
     if (!interaction.isCommand()) return;
-    if (interaction.channel!.type != 'GUILD_TEXT') return;
+    if (interaction.channel!.type != ChannelType.GuildText) return;
 
-    const count: number = await interaction.options.getNumber('count') || 5;
+    const count: number =
+      (interaction.options.get('count').value as number) || 5;
 
     const member: GuildMember = await interaction.guild.members.fetch(
       interaction.user.id,
     );
 
-    if (member.permissions.has('MANAGE_MESSAGES', true)) {
+    if (member.permissions.has(PermissionsBitField.Flags.KickMembers, true)) {
       if (count === 0) {
         await interaction.reply({
           content: `You can't delete 0 messages.`,

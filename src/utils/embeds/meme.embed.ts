@@ -1,4 +1,4 @@
-import { MessageEmbed } from 'discord.js';
+import { EmbedBuilder } from 'discord.js';
 import { load } from 'js-yaml';
 import { readFileSync } from 'fs';
 
@@ -10,7 +10,7 @@ function sendImageResult(
   link: string,
   image: string,
 ) {
-  const imageEmbed = new MessageEmbed()
+  const imageEmbed = new EmbedBuilder()
     .setTitle(subRedditName)
     .setImage(image)
     .setColor(conf.embedColor)

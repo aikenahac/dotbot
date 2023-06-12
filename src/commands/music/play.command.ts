@@ -18,7 +18,8 @@ module.exports = {
   async execute(interaction: Interaction) {
     if (!interaction.isCommand()) return;
 
-    const track: string = await interaction.options.getString('song');
+    const track: string = (await interaction.options.get('song')
+      .value) as string;
 
     await MusicPlayer.play(interaction, track);
   },

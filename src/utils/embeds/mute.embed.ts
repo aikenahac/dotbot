@@ -1,4 +1,4 @@
-import { MessageEmbed } from 'discord.js';
+import { EmbedBuilder } from 'discord.js';
 import { load } from 'js-yaml';
 import { readFileSync } from 'fs';
 
@@ -21,10 +21,12 @@ function sendMuteAction(
       break;
   }
 
-  const actionEmbed = new MessageEmbed()
+  const actionEmbed = new EmbedBuilder()
     .setColor(conf.embedColor)
-    .addField('New mute', actionType, false)
-    .addField('Reason', `${reason}`, false)
+    .addFields(
+      { name: 'New mute', value: actionType, inline: false },
+      { name: 'Reason', value: reason, inline: false },
+    )
     .setTimestamp();
 
   return actionEmbed;
